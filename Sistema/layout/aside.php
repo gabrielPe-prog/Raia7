@@ -23,6 +23,12 @@
     </a>
   </li>
 
+  <li class="nav-item">
+    <a class="nav-link " href="carteirinha.php">
+      <i class="bi bi-person-vcard-fill"></i>
+      <span>Carteirinha</span>
+    </a>
+  </li>
 </ul>
 
 </aside>

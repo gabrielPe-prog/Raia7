@@ -1,3 +1,14 @@
+<?php 
+
+if (!isset($_SESSION)){
+    session_start();
+}
+date_default_timezone_set('America/Recife');
+
+include_once 'service/checkAccess.php';
+include_once 'controller/controllerInfo.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,7 +78,7 @@
                       <i class="bi bi-person-circle"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>200</h6>
+                      <h6><?php echo$_SESSION['totalAlunos']; ?></h6>
                     </div>
                   </div>
                 </div>

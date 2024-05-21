@@ -21,24 +21,16 @@
 
       <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
         <i class="bi bi-person-badge-fill"></i>
-        <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+        <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['nome']; ?></span>
       </a>
 
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-        <li class="dropdown-header">
-          <h6>Kevin Anderson</h6>
-        </li>
         <li>
-          <hr class="dropdown-divider">
-        </li>
-
-        <li>
-          <a class="dropdown-item d-flex align-items-center" href="paginaInicial.php">
+          <a class="dropdown-item d-flex align-items-center" href="controller/controllerLogout.php">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sair do Sistema</span>
           </a>
         </li>
-
       </ul>
     </li>
 

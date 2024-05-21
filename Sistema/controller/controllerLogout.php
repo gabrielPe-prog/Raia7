@@ -8,4 +8,4 @@ $_SESSION['logged_in'] = false;
  
 session_destroy();
  
-header('Location: ../paginaInicial.php');
+header('Location: ../index.php');
