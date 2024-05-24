@@ -78,7 +78,7 @@ include_once 'controller/controllerInfo.php';
                       <i class="bi bi-person-circle"></i>
                     </div>
                     <div class="ps-3">
-                      <h6><?php echo$_SESSION['totalAlunos']; ?></h6>
+                      <h6><?php echo $_SESSION['totalAlunos']; ?></h6>
                     </div>
                   </div>
                 </div>

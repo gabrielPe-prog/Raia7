@@ -34,15 +34,15 @@
   <main>
     <div class="container">
 
-      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-2">
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div class="col-lg-8 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-              <div class="d-flex justify-content-center py-4">
+              <div class="d-flex justify-content-center py-2">
                 <a href="paginaInicial.php" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">NiceAdmin</span>
+                  <span class="d-none d-lg-block">Raia7 <p style="color: red;">Academia Aquática</p></span>
                 </a>
               </div><!-- End Logo -->
 
@@ -51,50 +51,75 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
-                    <p class="text-center small">Enter your personal details to create account</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Realizar Cadastro</h5>
+                    <p class="text-center small">Preencha os campos para realizar o cadastro</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
-                    <div class="col-12">
-                      <label for="yourName" class="form-label">Your Name</label>
-                      <input type="text" name="name" class="form-control" id="yourName" required>
-                      <div class="invalid-feedback">Please, enter your name!</div>
+                  <form class="row g-3" method="post" action="controller/controllerCadastraAluno.php" onsubmit="validaCadastro(this)" enctype="multipart/form-data">
+                    <div class="row mb-4">
+                      <div class="col-6">
+                        <label for="nome" class="form-label">Nome Completo*</label>
+                        <input type="text" class="form-control" id="nome" name="nome">
+                      </div>
+                      <div class="col-6">
+                        <label for="cpf" class="form-label">CPF*</label>
+                        <input type="text" class="form-control" id="cpf" name="cpf" oninput="CpfMask(this)" maxlength="11">
+                      </div>
                     </div>
 
-                    <div class="col-12">
-                      <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
-                      <div class="invalid-feedback">Please enter a valid Email adddress!</div>
+                    <div class="row mb-4">
+                      <p>*Caso não esteja na escola, deixar o campo em branco</p>
+                      <div class="col-8">
+                        <label for="escola" class="form-label">Escola</label>
+                        <input type="text" class="form-control" id="escola" name="escola">
+                      </div>
+                      <div class="col-4">
+                        <label for="serie_escola" class="form-label">Série na Escola</label>
+                        <input type="text" class="form-control" id="serie_escola" name="serie_escola">
+                      </div>
                     </div>
 
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please choose a username.</div>
+                    <div class="row mb-4">
+                      <div class="col-6">
+                        <label for="contato" class="form-label">Contato*</label>
+                        <input type="text" class="form-control" id="contato" name="contato" oninput="celularMask(this)" maxlength="15">
+                      </div>
+                      <div class="col-6">
+                        <label for="data_nascimento" class="form-label">Data de Nascimento*</label>
+                        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento">
+                      </div>
+                    </div>
+
+                    <div class="row mb-4">
+                      <div class="col-8">
+                        <label for="endereco" class="form-label">Endereço*</label>
+                        <input type="text" class="form-control" id="endereco" name="endereco">
+                      </div>
+                      <div class="col-4">
+                        <label for="cep" class="form-label">CEP*</label>
+                        <input type="text" class="form-control" id="cep" name="cep" oninput="CepMask(this)" maxlength="8">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12 mb-4">
+                        <label for="formFileSm" class="form-label">Adicione aqui a uma foto para carteirinha</label>
+                        <input class="form-control form-control-sm" id="formFileSm" type="file" name="path_foto">
+                      </div>
+                    </div>
+
+                    <div class="row mb-4">
+                      <div class="col-12">
+                        <label for="obs_saude" class="form-label">Observações Médicas*</label>
+                        <input type="text" class="form-control" id="obs_saude" name="obs_saude">
                       </div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
-                        <div class="invalid-feedback">You must agree before submitting.</div>
-                      </div>
+                      <button class="btn btn-primary w-100" type="submit">Realizar Cadastro</button>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Create Account</button>
-                    </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href="pages-login.html">Log in</a></p>
+                      <p class="small mb-0">Você já tem um cadastro? <a href="index.php">Faça Login</a></p>
                     </div>
                   </form>
 
@@ -108,9 +133,7 @@
             </div>
           </div>
         </div>
-
       </section>
-
     </div>
   </main><!-- End #main -->
 
@@ -125,9 +148,72 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    function CepMask(input) {
+        const value = input.value.replace(/\D/g, '');
+        input.value = value.replace(/(\d{5})(\d{3})/, '$1-$2');
+    }
+
+    function CpfMask(input) {
+        const value = input.value.replace(/\D/g, '');
+        input.value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+
+    function celularMask(input) {
+    const celular = input.value.replace(/\D+/g, "").slice(0, 11);
+    const tamanho = celular.length;
+
+    if (tamanho === 11) {
+        input.value = `(${celular.slice(0, 2)}) ${celular.slice(2, 7)}-${celular.slice(7)}`;
+    } else if (tamanho >= 7) {
+        input.value = `(${celular.slice(0, 2)}) ${celular.slice(2, 7)}-${celular.slice(7, 11)}`;
+    } else if (tamanho >= 2) {
+        input.value = `(${celular.slice(0, 2)}) ${celular.slice(2)}`;
+    } else {
+        input.value = `(${celular}`;
+    }
+  }
+  </script>
+
+  <script>
+
+    function validaCadastro() {
+        if (document.getElementById("nome") = "") {
+            alert("Campo Nome em Branco");
+        }
+
+        if (document.getElementById("cpf") = "") {
+            alert("Campo CPF em Branco");
+        }
+
+        if (document.getElementById("contato") = "") {
+            alert("Campo Contato em Branco");
+        }
+
+        if (document.getElementById("data_nascimento") = "") {
+            alert("Campo Data de Nascimento em Branco");
+        }
+
+        if (document.getElementById("endereco") = "") {
+            alert("Campo Endereço em Branco");
+        }
+
+        if (document.getElementById("cep") = "") {
+            alert("Campo CEP em Branco");
+        }
+
+        if (document.getElementById("obs_saude") = "") {
+            alert("Campo Observações Médicas em Branco");
+        }
+
+    }
+
+  </script>
 
 </body>
 

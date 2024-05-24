@@ -39,6 +39,8 @@ include_once 'service/checkAccess.php';
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <link href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
+
 </head>
 
   <?php include_once 'layout/header.php'; ?>
@@ -803,5 +805,7 @@ include_once 'service/checkAccess.php';
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
   </body>
 </html>

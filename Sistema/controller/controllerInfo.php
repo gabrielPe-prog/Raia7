@@ -1,5 +1,10 @@
 <?php
 
+if (!isset($_SESSION)){
+    session_start();
+}
+date_default_timezone_set('America/Recife');
+
 include_once("service/connection_create.php");
 
 $conn = conexao_pdo(); 
