@@ -37,8 +37,8 @@
     }
 
     #logo_code{
-      height: 130px;
-      width: 150px;
+      height: 80px;
+      width: 85px;
     }
 
     #logo_r7{

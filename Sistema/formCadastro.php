@@ -27,6 +27,25 @@
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <style>
+        body{
+        background-image: url("assets/img/bg.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+
+    #logo_code{
+      height: 80px;
+      width: 85px;
+    }
+
+    #logo_r7{
+      height: 150px;
+      width: 300px;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -38,18 +57,12 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-8 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-              <div class="d-flex justify-content-center py-2">
-                <a href="paginaInicial.php" class="logo d-flex align-items-center w-auto">
-                  <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">Raia7 <p style="color: red;">Academia Aquática</p></span>
-                </a>
-              </div><!-- End Logo -->
-
               <div class="card mb-3">
-
                 <div class="card-body">
 
+                  <div class="d-flex justify-content-center">
+                      <img id="logo_r7" src="assets/img/logoR7.png" alt="">
+                  </div>
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Realizar Cadastro</h5>
                     <p class="text-center small">Preencha os campos para realizar o cadastro</p>
@@ -63,7 +76,7 @@
                       </div>
                       <div class="col-6">
                         <label for="cpf" class="form-label">CPF*</label>
-                        <input type="text" class="form-control" id="cpf" name="cpf" oninput="CpfMask(this)" maxlength="11">
+                        <input type="text" class="form-control" id="cpf" name="cpf" maxlength="11">
                       </div>
                     </div>
 
@@ -100,11 +113,18 @@
                         <input type="text" class="form-control" id="cep" name="cep" oninput="CepMask(this)" maxlength="8">
                       </div>
                     </div>
-
+<!-- 
                     <div class="row">
                       <div class="col-12 mb-4">
                         <label for="formFileSm" class="form-label">Adicione aqui a uma foto para carteirinha</label>
                         <input class="form-control form-control-sm" id="formFileSm" type="file" name="path_foto">
+                      </div>
+                    </div> -->
+                    
+                    <div class="row">
+                      <div class="col-12 mb-4">
+                        <label for="formFileSm" class="form-label">Ultimo mês Pago</label>
+                        <input class="form-control form-control-sm" id="formFileSm" type="file" name="ultimo_pagamento">
                       </div>
                     </div>
 
@@ -118,18 +138,16 @@
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Realizar Cadastro</button>
                     </div>
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                       <p class="small mb-0">Você já tem um cadastro? <a href="index.php">Faça Login</a></p>
-                    </div>
+                    </div> -->
                   </form>
 
+                  <div class="credits mt-4 text-center">
+                    Desenvolvido por <img id="logo_code" src="assets/img/Codewave-PNG-Preto.png">
+                  </div>
                 </div>
               </div>
-
-              <div class="credits">
-                Desenvolvido por <a href="#">CodeWave</a>
-              </div>
-
             </div>
           </div>
         </div>
