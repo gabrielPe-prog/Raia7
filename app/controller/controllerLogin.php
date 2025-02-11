@@ -23,6 +23,7 @@ if ($acesso_usuario) {
 
       $_SESSION['logged_in'] = TRUE;
       $_SESSION['nome'] = $acesso_usuario["nome"];
+      $_SESSION["nivel"] = $acesso_usuario["nivel"];
 
   header('Location: ../paginaInicial.php');
   exit;

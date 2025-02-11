@@ -12,7 +12,6 @@ $conn = conexao_pdo();
 $nome_update = $_POST['nome_update'];
 $turma_update = $_POST['turma_update'];
 $cpf_update = $_POST['cpf_update'];
-$pagamento_update = $_POST['pagamento_update'];
 $escola_update = $_POST['escola_update'];
 $serie_escola_update = $_POST['serie_escola_update'];
 $contato_update =  $_POST['contato_update'];
@@ -27,7 +26,6 @@ $sql = "UPDATE alunos SET nome = :nome_update,
                              turma = :turma_update,
                              cpf = :cpf_update,
                              serie_escola = :serie_escola_update,
-                             ultimo_pagamento = :pagamento_update,
                              contato = :contato_update,
                              endereco = :endereco_update,
                              cep = :cep_update,
@@ -40,7 +38,6 @@ $stmt = $conn->prepare($sql);
 $stmt->bindParam(':nome_update', $nome_update);
 $stmt->bindParam(':cpf_update', $cpf_update);
 $stmt->bindParam(':turma_update', $turma_update);
-$stmt->bindParam(':pagamento_update', $pagamento_update);
 $stmt->bindParam(':escola_update', $escola_update);
 $stmt->bindParam(':serie_escola_update', $serie_escola_update);
 $stmt->bindParam(':contato_update', $contato_update);
@@ -53,11 +50,9 @@ $stmt->bindParam(':id_aluno', $id_aluno);
 $retorno = $stmt->execute();
 
 if ($retorno) {
-    $_SESSION['updateSuccess'] = 1;
-    echo "<script>alert('ATUALIZADO COM SUCESSO')</script>";
+    $_SESSION['update'] = 1;
     header("location: ../alunos.php?success=true");
 } else {
-    $_SESSION['updateSuccess'] = 0;
-    echo "<script>alert('NÃO FOI ATUALIZADO')</script>";
+    $_SESSION['update'] = 0;
     header("location: ../alunos.php?success=false");
 }

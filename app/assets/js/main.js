@@ -316,4 +316,99 @@
     }, 200);
   }
 
+  $(document).ready(function () {
+    var optionsProponente = {
+      onKeyPress: function (cpf, ev, el, op) {
+        var masks = ['000.000.000-000', '00.000.000/0000-00'];
+        $('#cpf_cnpj_proponente').mask((cpf.length > 14) ? masks[1] : masks[0], op);
+      }
+    }
+
+    var optionsArtista = {
+      onKeyPress: function (cpf, ev, el, op) {
+        var masks = ['000.000.000-000', '00.000.000/0000-00'];
+        $('#cpf_cnpj_artista').mask((cpf.length > 14) ? masks[1] : masks[0], op);
+      }
+    }
+
+    $('#cpf_cnpj_proponente').mask('000.000.000-00', optionsProponente);
+    $('#cpf_cnpj_artista').mask('000.000.000-00', optionsArtista);
+  });
+
+  document.getElementById('formCadastro').addEventListener('submit', function (event) {
+    const campos = document.querySelectorAll(
+      '#formCadastro input, #formCadastro textarea, #formCadastro select'
+    );
+    let formularioValido = true;
+
+    campos.forEach(campo => {
+      const ehOpcional = campo.classList.contains('opcional');
+
+      if (!ehOpcional && !campo.value.trim()) {
+        formularioValido = false;
+        campo.style.borderColor = 'red';
+        Swal.fire({
+          icon: 'error',
+          title: 'Campo Obrigatório',
+          text: `O campo ${campo.id} é obrigatório!`
+        });
+      } else {
+        campo.style.borderColor = '';
+      }
+
+      if (campo.type === 'file' && campo.files.length > 0) {
+        const maxFileSize = 8 * 1024 * 1024;
+        for (const file of campo.files) {
+          if (file.size > maxFileSize) {
+            formularioValido = false;
+            campo.style.borderColor = 'red';
+            Swal.fire({
+              icon: 'error',
+              title: 'Arquivo Muito Grande',
+              text: `O arquivo ${file.name} excede o limite de 8MB!`
+            });
+            break;
+          }
+        }
+      }
+    });
+    if (!formularioValido) {
+      event.preventDefault();
+    }
+  });
+
+  document.getElementById('formCadastro').addEventListener('submit', function (event) {
+    let formularioValido = true;
+
+    // Adiciona validação de CPF e CNPJ
+    const cpfCnpjProponente = document.getElementById('cpf_cnpj_proponente');
+    const cpfCnpjArtista = document.getElementById('cpf_cnpj_artista');
+
+    if (cpfCnpjProponente.value && !validaCPFCNPJ(cpfCnpjProponente.value)) {
+      event.preventDefault();
+      formularioValido = false;
+      cpfCnpjProponente.style.borderColor = 'red';
+      Swal.fire({
+        icon: 'error',
+        title: 'CPF/CNPJ Inválido',
+        text: 'O CPF/CNPJ do proponente está inválido!'
+      });
+    }
+
+    if (cpfCnpjArtista.value && !validaCPFCNPJ(cpfCnpjArtista.value)) {
+      event.preventDefault();
+      formularioValido = false;
+      cpfCnpjArtista.style.borderColor = 'red';
+      Swal.fire({
+        icon: 'error',
+        title: 'CPF/CNPJ Inválido',
+        text: 'O CPF/CNPJ do artista está inválido!'
+      });
+    }
+
+    if (!formularioValido) {
+      event.preventDefault();
+    }
+  });
+
 })();

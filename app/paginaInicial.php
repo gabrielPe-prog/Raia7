@@ -5,7 +5,7 @@ if (!isset($_SESSION)){
 }
 date_default_timezone_set('America/Recife');
 
-include_once 'service/checkAccess.php';
+//include_once 'service/checkAccess.php';
 include_once 'controller/controllerInfo.php';
 ?>
 
@@ -68,7 +68,7 @@ include_once 'controller/controllerInfo.php';
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
                 <div class="card-body">
-                  <h5 class="card-title">Alunos Matriculados <span>| Hoje</span></h5>
+                  <h5 class="card-title">Alunos Matriculados <span>| Total</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -85,7 +85,7 @@ include_once 'controller/controllerInfo.php';
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
                 <div class="card-body">
-                  <h5 class="card-title">Dinheiro que Entrou <span>|Mês</span></h5>
+                  <h5 class="card-title">Pessoas faltando pagar <span>|Total</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">

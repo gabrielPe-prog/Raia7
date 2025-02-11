@@ -1,11 +1,11 @@
 <?php
 function conexao_pdo(){
 
-    $user = 'raia_adm';
-    $pass = '1925310607';
+    $user = 'root';
+    $pass = 'AujAC#8511Q5';
 
         try {
-            $conexao = new PDO('mysql:host=localhost;dbname=raia7', $user, $pass);
+            $conexao = new PDO('mysql:host=db;dbname=sistema_r7', $user, $pass);
             return $conexao;
         }
         catch ( PDOException $e )
