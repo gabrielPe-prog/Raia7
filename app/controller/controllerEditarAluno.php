@@ -23,7 +23,7 @@ $id_aluno = $_POST['id_aluno'];
 
 $sql = "UPDATE alunos SET nome = :nome_update,
                              escola = :escola_update, 
-                             turma = :turma_update,
+                             id_turma = :turma_update,
                              cpf = :cpf_update,
                              serie_escola = :serie_escola_update,
                              contato = :contato_update,

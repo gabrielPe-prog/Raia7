@@ -183,11 +183,11 @@ include_once 'controller/controllerVisualizaAlunos.php';
                 </div>
               </div>
 
-              <?php 
-              
-              if(isset($_SESSION['update'])) {
-                if($_SESSION['update'] == 1){
-                    echo '<script>
+              <?php
+
+              if (isset($_SESSION['update'])) {
+                if ($_SESSION['update'] == 1) {
+                  echo '<script>
                             Swal.fire({
                                 icon: "success",
                                 title: "Sucesso!",
@@ -195,7 +195,7 @@ include_once 'controller/controllerVisualizaAlunos.php';
                             });
                           </script>';
                 } else {
-                    echo '<script>
+                  echo '<script>
                             Swal.fire({
                                 icon: "error",
                                 title: "Erro...",
@@ -204,8 +204,8 @@ include_once 'controller/controllerVisualizaAlunos.php';
                           </script>';
                 }
                 unset($_SESSION['update']);
-            }
-              
+              }
+
               ?>
 
               <table class="datatable" id="alunos">
@@ -342,8 +342,8 @@ include_once 'controller/controllerVisualizaAlunos.php';
                                   </div>
                                   <div class="col-md-6">
                                     <label for="escola" class="form-label">Turma</label>
-                                    <input type="text" class="form-control" name="turma_update"
-                                      value="<?php echo $aluno['turma']; ?>">
+                                    <input type="number" class="form-control" name="turma_update"
+                                      value="<?php echo $aluno['id_turma']; ?>">
                                   </div>
                                   <div class="col-md-6">
                                     <label for="serie_escola" class="form-label">Série</label>
