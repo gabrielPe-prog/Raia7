@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 date_default_timezone_set('America/Recife');
 
 include_once 'service/checkAccess.php';
-include_once 'controller/controllerVisualizaAlunos.php';
+include_once 'controller/controllerFinanceiro.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,6 +51,24 @@ include_once 'controller/controllerVisualizaAlunos.php';
 
 <body>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        <?php if (isset($_SESSION['update_status']) && isset($_SESSION['update_message'])): ?>
+            Swal.fire({
+                icon: '<?php echo $_SESSION['update_status']; ?>',
+                title: '<?php echo ($_SESSION["update_status"] === "success") ? "Sucesso!" : "Erro!"; ?>',
+                text: '<?php echo $_SESSION["update_message"]; ?>',
+            });
+
+            <?php
+
+            unset($_SESSION['update_status']);
+            unset($_SESSION['update_message']);
+            ?>
+        <?php endif; ?>
+    </script>
+
+
     <div class="pagetitle">
         <h1>Alunos Matriculados</h1>
         <nav>
@@ -73,24 +91,68 @@ include_once 'controller/controllerVisualizaAlunos.php';
                                 <thead>
                                     <tr>
                                         <th class="text-center">Nome</th>
-                                        <th class="text-center">CPF</th>
                                         <th class="text-center">Pacote</th>
-                                        <th class="text-center">Pagamento</th>
-                                        <th class="text-center">Observação</th>
+                                        <th class="text-center">Ultimo Pagamento</th>
                                         <th class="text-center">Status</th>
+                                        <th class="text-center">Editar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($alunos as $aluno) { ?>
+                                    <?php
+                                    foreach ($financeiro as $f) { ?>
+
                                         <tr>
-                                            <td class="text-center"><?php echo htmlspecialchars($aluno['nome']); ?></td>
-                                            <td class="text-center">
-                                                <?php echo htmlspecialchars($aluno['cpf']); ?>
-                                            </td>
-                                            <td class="text-center"><?php echo htmlspecialchars($aluno['pacote']); ?></td>
-                                            <td class="text-center"><?php echo htmlspecialchars($aluno['pagamento']); ?></td>
-                                            <td class="text-center"><?php echo htmlspecialchars($aluno['observacao']); ?></td>
+                                            <td class="text-center"><?php echo htmlspecialchars($f['aluno_nome']); ?></td>
+                                            <td class="text-center"><?php echo htmlspecialchars($f['pacote_nome']); ?></td>
+                                            <td class="text-center"><?php echo htmlspecialchars($f['pagamento']); ?></td>
                                             <td class="text-center"><?php echo $status; ?></td>
+                                            <td class="text-center">
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editarDados-<?php echo $f['id']; ?>">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="editarDados-<?php echo $f['id']; ?>" tabindex="-1"
+                                                    aria-labelledby="editarDadosLabel-<?php echo $f['id']; ?>" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="editarDadosLabel-<?php echo $f['id']; ?>">
+                                                                    Editar Informações</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form class="row g-3" method="POST" action="controller/controllerAtualizaPacote.php">
+
+                                                                    <label for="pacote-<?php echo $f['id']; ?>">Pacote:</label>
+                                                                    <select class="form-select" id="pacote-<?php echo $f['id']; ?>" name="id_pacote" required>
+                                                                        <?php
+                                                                        foreach ($pacotes as $pacote) {
+                                                                            $selected = ($pacote['id'] == $f['id_pacote']) ? 'selected' : '';
+                                                                            echo "<option value='{$pacote['id']}' $selected>{$pacote['nome']}</option>";
+                                                                        }
+                                                                        ?>
+                                                                    </select>
+
+                                                                    <label for="pagamento-<?php echo $f['id']; ?>">Data do Pagamento:</label>
+                                                                    <input type="date" class="form-control" id="pagamento-<?php echo $f['id']; ?>" name="pagamento"
+                                                                        value="<?php echo htmlspecialchars($f['pagamento']); ?>" required>
+
+                                                                    <input type="hidden" name="id_financeiro" value="<?php echo $f['id']; ?>">
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                                                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -146,38 +208,6 @@ include_once 'controller/controllerVisualizaAlunos.php';
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-    <!-- <script>
-    $(document).ready(function() {
-    $('#alunos').DataTable({
-      "language": {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "Sem Registros",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros de _START_ aa _END_ de um total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros de 0 a 0 de um total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Carregando...",
-        "oPaginate": {
-          "sFirst": "Primero",
-          "sLast": "Último",
-          "sNext": "Siguiente",
-          "sPrevious": "Anterior"
-        },
-        "oAria": {
-          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
-      }
-    });
-  });
-</script> -->
 
 </body>
 

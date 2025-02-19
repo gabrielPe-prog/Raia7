@@ -117,11 +117,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $cria_user = "INSERT INTO user(
                 nome,
                 senha,
-                cpf,
+                cpf
             ) VALUES (
                 :nome,
                 :senha,
-                :cpf,
+                :cpf
             )";
 
       $cria_user_stm = $conn->prepare($cria_user);
@@ -129,12 +129,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $cria_user_stm->bindParam(':senha', $senha_hash);
       $cria_user_stm->bindParam(':cpf', $cpf);
       $cria_user_stm->execute();
+    }
 
+    if ($cria_user_stm) {
       $_SESSION['logged_in'] = TRUE;
       $_SESSION['nome'] = $result['nome'];
       $_SESSION["nivel"] = "aluno";
 
-      header('Location: ../paginaInicial.php');
+      $_SESSION['cadastro_feito'] = 1;
+      header("location: ../paginaInicial.php");
       exit();
     } else {
       $_SESSION['erro_cadastro'] = 1;

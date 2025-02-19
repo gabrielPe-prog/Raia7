@@ -136,7 +136,7 @@
                     <p class="text-center small">Preencha os campos para realizar o cadastro</p>
                   </div>
 
-                  <form class="row g-3" method="post" action="controller/controllerCadastraAluno.php"
+                  <form class="row g-3" method="POST" action="controller/controllerCadastraAluno.php"
                     onsubmit="validaCadastro(this)" enctype="multipart/form-data">
                     <div class="row mb-4">
                       <div class="col-6">

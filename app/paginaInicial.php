@@ -48,6 +48,23 @@ include_once 'controller/controllerInfo.php';
 
 <body>
 
+  <?php 
+    
+    if(isset($_SESSION['cadastro_feito'])) {
+      if($_SESSION['cadastro_feito'] == 1){
+          echo '<script>
+                  Swal.fire({
+                      icon: "success",
+                      title: "Usuário Criado!",
+                      text: "Aproveite o sistema!",
+                  });
+                </script>';
+        }
+        unset($_SESSION['cadastro_feito']);
+    }
+    
+    ?>
+
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -63,96 +80,7 @@ include_once 'controller/controllerInfo.php';
     <section class="section dashboard">
       <div class="row">
 
-        <div class="col-lg-8">
-          <div class="row">
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-                <div class="card-body">
-                  <h5 class="card-title">Alunos Matriculados <span>| Total</span></h5>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-person-circle"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6><?php echo $_SESSION['totalAlunos']; ?></h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-                <div class="card-body">
-                  <h5 class="card-title">Pessoas faltando pagar <span>|Total</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-person-circle"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6><?php echo "Nenhuma Informação ainda"; ?></h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Histórico de Pagamento</h5>
-
-              COLOCAR UM FOREACH PARA PEGAR OS 5 ULTIMOS PAGAMENTOS SALVOS NO BANCO DE DADOS
-
-              <div class="activity">
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                  <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                  </div>
-                </div>
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
-                  </div>
-                </div>
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptates corrupti molestias voluptatem
-                  </div>
-                </div>
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                  </div>
-                </div>
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Est sit eum reiciendis exercitationem
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
     </section>
