@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pages / Register - NiceAdmin Bootstrap Template</title>
+  <title>Formulário de Cadastro</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -53,35 +53,35 @@
 
 <body>
 
-    <?php 
-    
-    if(isset($_SESSION['user_criado'])) {
-      if($_SESSION['user_criado'] == 1){
-          echo '<script>
+  <?php
+
+  if (isset($_SESSION['user_criado'])) {
+    if ($_SESSION['user_criado'] == 1) {
+      echo '<script>
                   Swal.fire({
                       icon: "warning",
                       title: "Usuário já criado!",
                       text: "Basta acessar o sistema!",
                   });
                 </script>';
-        }
-        unset($_SESSION['user_criado']);
     }
+    unset($_SESSION['user_criado']);
+  }
 
-    if(isset($_SESSION['erro_cadastro'])) {
-      if($_SESSION['erro_cadastro'] == 1){
-          echo '<script>
+  if (isset($_SESSION['erro_cadastro'])) {
+    if ($_SESSION['erro_cadastro'] == 1) {
+      echo '<script>
                   Swal.fire({
                       icon: "error",
                       title: "Cadastro não realizado!",
                       text: "entre em contato com o administrador!",
                   });
                 </script>';
-      }
-      unset($_SESSION['erro_cadastro']);
     }
+    unset($_SESSION['erro_cadastro']);
+  }
 
-    if(isset($_SESSION['erro_upload'])) {
+  if (isset($_SESSION['erro_upload'])) {
     switch ($_SESSION['erro_upload']) {
       case 'tamanho':
         echo '<script>
@@ -115,8 +115,8 @@
     }
     unset($_SESSION['erro_upload']);
   }
-    
-    ?>
+
+  ?>
 
   <main>
     <div class="container">
@@ -237,7 +237,6 @@
   <script src="assets/js/main.js"></script>
 
   <script>
-
     function applyMask(input, pattern) {
       const value = input.value.replace(/\D/g, '');
       input.value = pattern(value);
@@ -274,14 +273,34 @@
     }
 
     function validateFields() {
-      const fields = [
-        { id: "nome", message: "Campo Nome em Branco" },
-        { id: "cpf", message: "Campo CPF em Branco" },
-        { id: "contato", message: "Campo Contato em Branco" },
-        { id: "data_nascimento", message: "Campo Data de Nascimento em Branco" },
-        { id: "endereco", message: "Campo Endereço em Branco" },
-        { id: "cep", message: "Campo CEP em Branco" },
-        { id: "obs_saude", message: "Campo Observações Médicas em Branco" },
+      const fields = [{
+          id: "nome",
+          message: "Campo Nome em Branco"
+        },
+        {
+          id: "cpf",
+          message: "Campo CPF em Branco"
+        },
+        {
+          id: "contato",
+          message: "Campo Contato em Branco"
+        },
+        {
+          id: "data_nascimento",
+          message: "Campo Data de Nascimento em Branco"
+        },
+        {
+          id: "endereco",
+          message: "Campo Endereço em Branco"
+        },
+        {
+          id: "cep",
+          message: "Campo CEP em Branco"
+        },
+        {
+          id: "obs_saude",
+          message: "Campo Observações Médicas em Branco"
+        },
       ];
 
       let isValid = true;

@@ -230,9 +230,9 @@ include_once 'controller/controllerVisualizaAlunos.php';
                 <table class="datatable" id="alunos">
                   <thead>
                     <tr>
+                      <th class="text-center">Foto</th>
                       <th class="text-center">Nome</th>
                       <th class="text-center">Contato</th>
-                      <th class="text-center">CEP</th>
                       <th class="text-center">Informações</th>
                       <th class="text-center">Editar</th>
                     </tr>
@@ -240,9 +240,15 @@ include_once 'controller/controllerVisualizaAlunos.php';
                   <tbody>
                     <?php foreach ($alunos as $aluno) { ?>
                       <tr>
+                        <td class="text-center">
+                          <?php if (!empty($aluno['path_foto'])): ?>
+                            <img src="<?php echo $aluno['path_foto']; ?>" alt="Foto do Aluno" style="width: 75px; height: 100px; object-fit: cover;">
+                          <?php else: ?>
+                            <span>Sem foto</span>
+                          <?php endif; ?>
+                        </td>
                         <td class="text-center"><?php echo htmlspecialchars($aluno['nome']); ?></td>
                         <td class="text-center"><?php echo htmlspecialchars($aluno['contato']); ?></td>
-                        <td class="text-center"><?php echo htmlspecialchars($aluno['cep']); ?></td>
                         <td class="text-center">
                           <!-- Button trigger modal -->
                           <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
