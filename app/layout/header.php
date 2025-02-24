@@ -1,7 +1,6 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
   <div class="d-flex align-items-center justify-content-between">
     <a href="paginaInicial.php" class="logo d-flex align-items-center">
@@ -13,12 +12,6 @@
 
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
-
-      <li class="nav-item d-block d-lg-none">
-        <a class="nav-link nav-icon search-bar-toggle " href="#">
-          <i class="bi bi-search"></i>
-        </a>
-      </li>
 
       <li class="nav-item dropdown pe-3">
 

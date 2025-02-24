@@ -1,7 +1,7 @@
-<?php 
+<?php
 
-if (!isset($_SESSION)){
-    session_start();
+if (!isset($_SESSION)) {
+  session_start();
 }
 date_default_timezone_set('America/Recife');
 
@@ -41,11 +41,13 @@ include_once 'service/checkAccess.php';
 
 </head>
 
-  <?php include_once 'layout/header.php'; ?>
+<?php include_once 'layout/header.php'; ?>
 
-  <?php include_once 'layout/aside.php'; ?>
+<?php include_once 'layout/aside.php'; ?>
 
-  <body>
+<body>
+
+  <main id="main" class="main">
 
     <div class="pagetitle">
       <h1>Carteirinha</h1>
@@ -57,25 +59,21 @@ include_once 'service/checkAccess.php';
       </nav>
     </div>
 
-    <main id="main" class="main">
+  </main>
+  <?php include_once 'layout/footer.php'; ?>
 
-    </main>
-    <?php include_once 'layout/footer.php'; ?>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-  </body>
 </html>
-  
