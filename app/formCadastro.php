@@ -173,28 +173,6 @@
                       </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-12 mb-4">
-                          <label for="turma" class="form-label">Selecione uma Turma:</label>
-                          <select class="form-select" id="turma" name="turma">
-                            <option selected disabled>Escolha uma Turma...</option>
-                            <option value="7:30 / 8:30">7:30 / 8:30</option>
-                            <option value="9:00 / 10:00">9:00 / 10:00</option>
-                            <option value="9:10 / 10:00">9:10 / 10:00</option>
-                            <option value="10:00 / 11:00">10:00 / 11:00</option>
-                            <option value="12:00 / 13:00">12:00 / 13:00</option>
-                            <option value="14:00 / 15:00">14:00 / 15:00</option>
-                            <option value="14:10 / 15:00">14:10 / 15:00</option>
-                            <option value="15:00 / 16:00">15:00 / 16:00</option>
-                            <option value="15:10 / 16:00">15:10 / 16:00</option>
-                            <option value="16:00 / 17:00">16:00 / 17:00</option>
-                            <option value="17:00 / 18:00">17:00 / 18:00</option>
-                            <option value="18:00 / 19:00">18:00 / 19:00</option>
-                            <option value="19:00 / 20:00">19:00 / 20:00</option>
-                          </select>
-                        </div>
-                    </div>
-
                     <div class="row mb-4">
                       <div class="col-8">
                         <label for="endereco" class="form-label">Endereço*</label>

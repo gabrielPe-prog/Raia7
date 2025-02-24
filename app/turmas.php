@@ -58,17 +58,18 @@ include_once 'controller/controllerInfo.php';
 <?php include_once 'layout/aside.php'; ?>
 
 <body>
-  <div class="pagetitle">
-    <h1>Turmas</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="paginaInicial.php">Home</a></li>
-        <li class="breadcrumb-item active">Turmas</li>
-      </ol>
-    </nav>
-  </div>
-
   <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Turmas</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="paginaInicial.php">Home</a></li>
+          <li class="breadcrumb-item active">Turmas</li>
+        </ol>
+      </nav>
+    </div>
+
     <section class="section">
       <div class="card">
         <div class="row">

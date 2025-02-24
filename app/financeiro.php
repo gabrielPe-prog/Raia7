@@ -68,18 +68,19 @@ include_once 'controller/controllerFinanceiro.php';
         <?php endif; ?>
     </script>
 
-
-    <div class="pagetitle">
-        <h1>Alunos Matriculados</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="paginaInicial.php">Home</a></li>
-                <li class="breadcrumb-item active">Alunos Matriculados</li>
-            </ol>
-        </nav>
-    </div>
-
     <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>Financeiro</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="paginaInicial.php">Home</a></li>
+                    <li class="breadcrumb-item active">Financeiro</li>
+                </ol>
+            </nav>
+        </div>
+
+
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
@@ -99,12 +100,38 @@ include_once 'controller/controllerFinanceiro.php';
                                 </thead>
                                 <tbody>
                                     <?php
-                                    foreach ($financeiro as $f) { ?>
+                                    foreach ($financeiro as $f) {
 
+                                        $dataAtual = new DateTime();
+                                        $dataFinal = new DateTime($f['pagamento']);
+                                        
+                                        $diferenca = $dataAtual->diff($dataFinal);
+                                        
+                                        $diasRestantes = $diferenca->days;
+                                        
+                                        switch (true) {
+                                            case ($diasRestantes == 0):
+                                                $status = "<span class='badge text-bg-warning'>Dia do Pagamento</span>";
+                                                break;
+                                            case ($diasRestantes < 0):
+                                                $status = "<span class='badge text-bg-success'>Pagamento Atrasado</span>";
+                                                break;
+                                            case ($diasRestantes > 0):
+                                                $status = "<span class='badge text-bg-success'>Aguardando Pagamento</span>";
+                                                break;
+                                            default:
+                                                $status = "Erro ao calcular a data.";
+                                                break;
+                                        }
+                                        
+                                        var_dump($diasRestantes, $status);
+                                        
+
+                                    ?>
                                         <tr>
                                             <td class="text-center"><?php echo htmlspecialchars($f['aluno_nome']); ?></td>
                                             <td class="text-center"><?php echo htmlspecialchars($f['pacote_nome']); ?></td>
-                                            <td class="text-center"><?php echo htmlspecialchars($f['pagamento']); ?></td>
+                                            <td class="text-center"><?php echo htmlspecialchars(date('d-m-Y', strtotime($f['pagamento']))); ?></td>
                                             <td class="text-center"><?php echo $status; ?></td>
                                             <td class="text-center">
                                                 <!-- Button trigger modal -->

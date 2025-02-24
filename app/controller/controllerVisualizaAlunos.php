@@ -9,7 +9,13 @@ include_once("service/connection_create.php");
 
 $conn = conexao_pdo();
 
-$sql = "SELECT * FROM alunos";
+$sql = "SELECT 
+    a.*,
+    t.horario AS horario_turma
+FROM 
+    alunos a
+LEFT JOIN 
+    turmas t ON a.id_turma = t.id_turma;";
 $stm = $conn->prepare($sql);
 $stm->execute();
 $alunos = $stm->fetchAll(PDO::FETCH_ASSOC);

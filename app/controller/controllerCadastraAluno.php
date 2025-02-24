@@ -6,8 +6,9 @@ date_default_timezone_set('America/Recife');
 
 include_once "../service/connection_create.php";
 
+$cpf = str_replace(['.', '-'], '', $_POST['cpf']);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $cpf = $_POST['cpf'];
 
   $conn = conexao_pdo();
   $sql = "SELECT COUNT(*) AS count FROM user WHERE cpf = :cpf";
@@ -59,17 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $path_foto = null;
   }
 
-  $select_turma = "SELECT id_turma FROM turmas WHERE horario = :horario";
-  $select_turma_stmt = $conn->prepare($select_turma);
-  $select_turma_stmt->bindParam(':horario', $_POST['turma']);
-  $select_turma_stmt->execute();
-  $result_turma = $select_turma_stmt->fetch(PDO::FETCH_ASSOC);
-
   $senha_hash = password_hash($cpf, PASSWORD_DEFAULT);
 
   $sql = "INSERT INTO alunos(
                 nome,
-                id_turma,
                 cpf,
                 escola,
                 serie_escola,
@@ -81,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 path_foto) 
             VALUES (
                 :nome,
-                :id_turma,
                 :cpf,
                 :escola,
                 :serie_escola,
@@ -94,7 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $stm = $conn->prepare($sql);
   $stm->bindParam(':nome', $_POST['nome']);
-  $stm->bindParam(':id_turma', $result_turma['id_turma']);
   $stm->bindParam(':cpf', $cpf);
   $stm->bindParam(':escola', $_POST['escola']);
   $stm->bindParam(':serie_escola', $_POST['serie_escola']);
