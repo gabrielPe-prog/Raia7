@@ -3,6 +3,6 @@
       &copy; Copyright <strong><span>Raia7 AquaManager</span></strong>.Todos Direitos Reservados
     </div>
     <div class="credits">
-      Designed by <a href="#">CodeWave</a>
+      Desenvolvido por <a href="#">CodeWave</a>
     </div>
-  </footer><!-- End Footer -->
+  </footer>

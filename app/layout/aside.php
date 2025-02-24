@@ -32,6 +32,18 @@
           <span>Financeiro</span>
         </a>
       </li>
+    </ul>
+
+  <?php else: ?>
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="paginaInicial.php">
+          <i class="bi bi-bar-chart-fill"></i>
+          <span>Informações Gerais</span>
+        </a>
+      </li>
 
       <li class="nav-item">
         <a class="nav-link " href="carteirinha.php">
@@ -40,10 +52,6 @@
         </a>
       </li>
     </ul>
-
-  <?php else: ?>
-
-    <p>NADA</p>
 
   <?php endif; ?>
 </aside>

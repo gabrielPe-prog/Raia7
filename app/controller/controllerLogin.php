@@ -7,19 +7,17 @@ date_default_timezone_set('America/Recife');
 require_once("../service/connection_create.php");
 
 $cpf = $_POST['cpf'];
-$senha_hash = $_POST['senha'];
-$senha = sha1(md5($senha_hash));
+$senha_digitada = $_POST['senha'];
 
 $conn = conexao_pdo();
 
-$sql = "SELECT * FROM user WHERE cpf = :cpf AND senha = :senha";
+$sql = "SELECT * FROM user WHERE cpf = :cpf";
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(":cpf", $cpf);
-$stmt->bindParam(":senha", $senha);
 $stmt->execute();
 $acesso_usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($acesso_usuario) {
+if ($acesso_usuario && password_verify($senha_digitada, $acesso_usuario['senha'])) {
   $_SESSION['logged_in'] = TRUE;
   $_SESSION['nome'] = $acesso_usuario["nome"];
   $_SESSION["nivel"] = $acesso_usuario["nivel"];
@@ -30,4 +28,3 @@ if ($acesso_usuario) {
   header('Location: ../index.php');
   exit;
 }
-?>
