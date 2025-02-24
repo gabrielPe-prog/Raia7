@@ -124,7 +124,7 @@ include_once 'controller/controllerFinanceiro.php';
                                                 break;
                                         }
                                         
-                                        var_dump($diasRestantes, $status);
+                                        
                                         
 
                                     ?>
@@ -132,7 +132,7 @@ include_once 'controller/controllerFinanceiro.php';
                                             <td class="text-center"><?php echo htmlspecialchars($f['aluno_nome']); ?></td>
                                             <td class="text-center"><?php echo htmlspecialchars($f['pacote_nome']); ?></td>
                                             <td class="text-center"><?php echo htmlspecialchars(date('d-m-Y', strtotime($f['pagamento']))); ?></td>
-                                            <td class="text-center"><?php echo $status; ?></td>
+                                            <td class="text-center"><?php echo '----------'; ?></td>
                                             <td class="text-center">
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
