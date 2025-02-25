@@ -21,6 +21,7 @@ if ($acesso_usuario && password_verify($senha_digitada, $acesso_usuario['senha']
   $_SESSION['logged_in'] = TRUE;
   $_SESSION['nome'] = $acesso_usuario["nome"];
   $_SESSION["nivel"] = $acesso_usuario["nivel"];
+  $_SESSION["cpf"] = $acesso_usuario["cpf"];
   header('Location: ../paginaInicial.php');
   exit;
 } else {

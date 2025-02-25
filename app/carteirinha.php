@@ -6,6 +6,8 @@ if (!isset($_SESSION)) {
 date_default_timezone_set('America/Recife');
 
 include_once 'service/checkAccess.php';
+include_once 'controller/controllerCarteirinha.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -59,6 +61,26 @@ include_once 'service/checkAccess.php';
       </nav>
     </div>
 
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Pré-visualização</h5>
+            <div id="preview" style="position: relative;">
+              <!-- Imagem da carteirinha com largura reduzida e responsiva -->
+              <img src="assets/carteirinha/carteirinhaR7.png" alt="Carteirinha Raia7" class="w-50 img-fluid">
+
+              <!-- Overlays ajustados para a nova largura da imagem -->
+              <div id="nomeOverlay" style="position: absolute; top: 20%; left: 10%; font-size: 24px; color: black;"><?php echo $carteirinha['nome']; ?></div>
+              <div id="cpfOverlay" style="position: absolute; top: 30%; left: 10%; font-size: 24px; color: black;"><?php echo $carteirinha['cpf']; ?></div>
+              <div id="turmaOverlay" style="position: absolute; top: 40%; left: 10%; font-size: 24px; color: black;"><?php echo $carteirinha['horario'] ?></div>
+            </div>
+            <button id="downloadPdf" class="btn btn-success mt-3">Baixar PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
   <?php include_once 'layout/footer.php'; ?>
 
@@ -72,6 +94,15 @@ include_once 'service/checkAccess.php';
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+      const element = document.getElementById('preview');
+      html2pdf().from(element).save();
+    });
+  </script>
 
   <script src="assets/js/main.js"></script>
 </body>
