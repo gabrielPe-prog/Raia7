@@ -1,4 +1,10 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
+<link rel="icon" type="image/png" href="app/assets/favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="app/assets/favicon/favicon.svg" />
+<link rel="shortcut icon" href="app/assets/favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="app/assets/favicon/apple-touch-icon.png" />
+<link rel="manifest" href="app/assets/favicon/site.webmanifest" />
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 

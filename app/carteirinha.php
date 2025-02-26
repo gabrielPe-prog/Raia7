@@ -7,7 +7,6 @@ date_default_timezone_set('America/Recife');
 
 include_once 'service/checkAccess.php';
 include_once 'controller/controllerCarteirinha.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +16,7 @@ include_once 'controller/controllerCarteirinha.php';
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Raia7 Carteirinha</title>
+  <title>Carteirinha R7</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -64,18 +63,23 @@ include_once 'controller/controllerCarteirinha.php';
     <div class="row">
       <div class="col-lg-8">
         <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Pré-visualização</h5>
-            <div id="preview" style="position: relative;">
-              <!-- Imagem da carteirinha com largura reduzida e responsiva -->
-              <img src="assets/carteirinha/carteirinhaR7.png" alt="Carteirinha Raia7" class="w-50 img-fluid">
+          <div class="card-body mt-4">
+            <?php if ($_SESSION['carteirinha']) : ?>
 
-              <!-- Overlays ajustados para a nova largura da imagem -->
-              <div id="nomeOverlay" style="position: absolute; top: 20%; left: 10%; font-size: 24px; color: black;"><?php echo $carteirinha['nome']; ?></div>
-              <div id="cpfOverlay" style="position: absolute; top: 30%; left: 10%; font-size: 24px; color: black;"><?php echo $carteirinha['cpf']; ?></div>
-              <div id="turmaOverlay" style="position: absolute; top: 40%; left: 10%; font-size: 24px; color: black;"><?php echo $carteirinha['horario'] ?></div>
-            </div>
-            <button id="downloadPdf" class="btn btn-success mt-3">Baixar PDF</button>
+              <div class="text-center mb-4">
+                <img src="<?php echo $_SESSION['carteirinha']; ?>" alt="Carteirinha" class="img-fluid" style="max-width: 100%; height: auto;">
+              </div>
+
+              <div class="text-center">
+                <a href="<?php echo $_SESSION['carteirinha']; ?>" download="carteirinha_<?php echo $_SESSION['cpf']; ?>.png" class="btn btn-primary">
+                  <i class="bi bi-download"></i> Baixar Carteirinha
+                </a>
+              </div>
+            <?php else : ?>
+              <div class="alert alert-warning mt-4 mb-1" role="alert">
+                Nenhuma carteirinha gerada.
+              </div>
+            <?php endif; ?>
           </div>
         </div>
       </div>
@@ -94,15 +98,7 @@ include_once 'controller/controllerCarteirinha.php';
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script>
-    document.getElementById('downloadPdf').addEventListener('click', function() {
-      const element = document.getElementById('preview');
-      html2pdf().from(element).save();
-    });
-  </script>
 
   <script src="assets/js/main.js"></script>
 </body>

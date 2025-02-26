@@ -124,12 +124,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($cria_user_stm) {
-      $_SESSION['logged_in'] = TRUE;
-      $_SESSION['nome'] = $result['nome'];
-      $_SESSION["nivel"] = "aluno";
-
       $_SESSION['cadastro_feito'] = 1;
-      header("location: ../paginaInicial.php");
+      header("location: ../index.php");
       exit();
     } else {
       $_SESSION['erro_cadastro'] = 1;

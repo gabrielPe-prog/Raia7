@@ -60,6 +60,19 @@ if (!isset($_SESSION)) {
 
   <?php
 
+  if (isset($_SESSION['cadastro_feito'])) {
+    if ($_SESSION['cadastro_feito'] == 1) {
+      echo '<script>
+              Swal.fire({
+                  icon: "success",
+                  title: "Usuário Criado!",
+                  text: "Faça o Login e Aproveite o sistema!",
+              });
+            </script>';
+    }
+    unset($_SESSION['cadastro_feito']);
+  }
+
   if (isset($_SESSION['erroLogin'])) {
     if ($_SESSION['erroLogin'] == 1) {
       echo '<script>

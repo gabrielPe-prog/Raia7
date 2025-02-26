@@ -5,7 +5,7 @@ if (!isset($_SESSION)){
 }
 date_default_timezone_set('America/Recife');
 
-//include_once 'service/checkAccess.php';
+include_once 'service/checkAccess.php';
 include_once 'controller/controllerInfo.php';
 ?>
 
@@ -47,23 +47,6 @@ include_once 'controller/controllerInfo.php';
   <?php include_once 'layout/aside.php'; ?>
 
 <body>
-
-  <?php 
-    
-    if(isset($_SESSION['cadastro_feito'])) {
-      if($_SESSION['cadastro_feito'] == 1){
-          echo '<script>
-                  Swal.fire({
-                      icon: "success",
-                      title: "Usuário Criado!",
-                      text: "Aproveite o sistema!",
-                  });
-                </script>';
-        }
-        unset($_SESSION['cadastro_feito']);
-    }
-    
-    ?>
 
   <main id="main" class="main">
 
