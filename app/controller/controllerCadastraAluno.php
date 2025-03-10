@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $nomeImagem = uniqid('foto_') . '.' . pathinfo($foto['name'], PATHINFO_EXTENSION);
-    $caminhoImagem = $pastaAnexos . '/' . $nomeImagem;
+    $caminhoImagem = 'anexo_alunos/' . $cpf . '/' . $nomeImagem;
 
     if (move_uploaded_file($foto['tmp_name'], $caminhoImagem)) {
       $path_foto = $caminhoImagem;
