@@ -66,7 +66,7 @@ if ($acesso_usuario && password_verify($senha_digitada, $acesso_usuario['senha']
 
       // Posicionar a foto na imagem de fundo
       $posicaoXFoto = 121;  // Posição X da foto
-      $posicaoYFoto = 141; // Posição Y da foto
+      $posicaoYFoto = 138; // Posição Y da foto
       imagecopy($imagemFundo, $fotoRedimensionada, $posicaoXFoto, $posicaoYFoto, 0, 0, $novaLargura, $novaAltura);
   }
 
