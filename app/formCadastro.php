@@ -28,6 +28,7 @@
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
 
   <style>
@@ -53,73 +54,8 @@
 
 <body>
 
-  <?php
-
-  if (isset($_SESSION['user_criado'])) {
-    if ($_SESSION['user_criado'] == 1) {
-      echo '<script>
-                  Swal.fire({
-                      icon: "warning",
-                      title: "Usuário já criado!",
-                      text: "Basta acessar o sistema!",
-                  });
-                </script>';
-    }
-    unset($_SESSION['user_criado']);
-  }
-
-  if (isset($_SESSION['erro_cadastro'])) {
-    if ($_SESSION['erro_cadastro'] == 1) {
-      echo '<script>
-                  Swal.fire({
-                      icon: "error",
-                      title: "Cadastro não realizado!",
-                      text: "entre em contato com o administrador!",
-                  });
-                </script>';
-    }
-    unset($_SESSION['erro_cadastro']);
-  }
-
-  if (isset($_SESSION['erro_upload'])) {
-    switch ($_SESSION['erro_upload']) {
-      case 'tamanho':
-        echo '<script>
-                  Swal.fire({
-                      icon: "error",
-                      title: "Tamanho inválido!",
-                      text: "Diminua o tamanho do arquivo!",
-                  });
-                </script>';
-        break;
-
-      case 'extensao':
-        echo '<script>
-                  Swal.fire({
-                      icon: "error",
-                      title: "Extensão inválida!",
-                      text: "Somente imagens PNG ou JPGEG são permitidas!",
-                  });
-                </script>';
-        break;
-
-      case 'salvar':
-        echo '<script>
-                  Swal.fire({
-                      icon: "error",
-                      title: "Erro ao salvar!",
-                      text: "entre em contato com o administrador!",
-                  });
-                </script>';
-        break;
-    }
-    unset($_SESSION['erro_upload']);
-  }
-
-  ?>
-
   <main>
-    <div class="container">
+    <div class="container px-3 py-3">
 
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-2">
         <div class="container">
@@ -262,67 +198,48 @@
     document.getElementById("cep").addEventListener("input", (e) => applyMask(e.target, masks.cep));
     document.getElementById("cpf").addEventListener("input", (e) => applyMask(e.target, masks.cpf));
     document.getElementById("contato").addEventListener("input", (e) => applyMask(e.target, masks.celular));
+  </script>
 
-    function showAlert(message, icon = 'error') {
-      Swal.fire({
-        icon: icon,
-        title: 'Campos obrigatórios em branco',
-        text: message,
-        confirmButtonColor: '#3085d6',
-      });
-    }
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.querySelector('form').addEventListener('submit', async function(e) {
+      e.preventDefault();
 
-    function validateFields() {
-      const fields = [{
-          id: "nome",
-          message: "Campo Nome em Branco"
-        },
-        {
-          id: "cpf",
-          message: "Campo CPF em Branco"
-        },
-        {
-          id: "contato",
-          message: "Campo Contato em Branco"
-        },
-        {
-          id: "data_nascimento",
-          message: "Campo Data de Nascimento em Branco"
-        },
-        {
-          id: "endereco",
-          message: "Campo Endereço em Branco"
-        },
-        {
-          id: "cep",
-          message: "Campo CEP em Branco"
-        },
-        {
-          id: "obs_saude",
-          message: "Campo Observações Médicas em Branco"
-        },
-      ];
+      const formData = new FormData(this);
 
-      let isValid = true;
+      try {
+        const response = await fetch('controller/controllerCadastraAluno.php', {
+          method: 'POST',
+          body: formData,
+        });
 
-      fields.forEach((field) => {
-        const input = document.getElementById(field.id);
-        if (!input.value.trim()) {
-          showAlert(field.message);
-          isValid = false;
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: result.message,
+          }).then(() => {
+            window.location.href = '../index.php';
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: result.message,
+          });
         }
-      });
-
-      return isValid;
-    }
-
-    document.getElementById("cadastroForm").addEventListener("submit", (e) => {
-      if (!validateFields()) {
-        e.preventDefault();
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: 'Ocorreu um erro ao processar a requisição.',
+        });
       }
     });
   </script>
 
-</body>
+  <body>
 
 </html>
