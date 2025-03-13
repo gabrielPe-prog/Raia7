@@ -221,7 +221,7 @@
             title: 'Sucesso!',
             text: result.message,
           }).then(() => {
-            window.location.href = '../index.php';
+            window.location.href = 'index.php';
           });
         } else {
           Swal.fire({

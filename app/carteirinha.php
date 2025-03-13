@@ -60,30 +60,32 @@ include_once 'controller/controllerCarteirinha.php';
       </nav>
     </div>
 
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="card">
-          <div class="card-body mt-4">
-            <?php if ($_SESSION['carteirinha']) : ?>
+    <div class="container mt-5">
+    <div class="card col-md-8 mx-auto">
+      <div class="row g-0">
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+          <img src="<?= $carteirinha['path_foto'] ?>" class="img-fluid rounded-start" alt="Foto do Aluno" style="max-height: 200px;">
+        </div>
 
-              <div class="text-center mb-4">
-                <img src="<?php echo $_SESSION['carteirinha']; ?>" alt="Carteirinha" class="img-fluid" style="max-width: 100%; height: auto;">
-              </div>
+        <div class="col-md-4">
+          <div class="card-body">
+            <h5 class="card-title">Nome</h5>
+            <p class="card-text fs-5"><?= $carteirinha['nome'] ?></p>
 
-              <div class="text-center">
-                <a href="<?php echo $_SESSION['carteirinha']; ?>" download="carteirinha_<?php echo $_SESSION['cpf']; ?>.png" class="btn btn-primary">
-                  <i class="bi bi-download"></i> Baixar Carteirinha
-                </a>
-              </div>
-            <?php else : ?>
-              <div class="alert alert-warning mt-4 mb-1" role="alert">
-                Nenhuma carteirinha gerada.
-              </div>
-            <?php endif; ?>
+            <h5 class="card-title">CPF</h5>
+            <p class="card-text fs-5"><?= $carteirinha['cpf'] ?></p>
+
+            <h5 class="card-title">Turma</h5>
+            <p class="card-text fs-5"><?= $carteirinha['horario'] ?></p>
           </div>
+        </div>
+
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+          <img src="assets/img/logoR7.png" class="img-fluid rounded-start" alt="Foto do Aluno" style="max-height: 200px;">
         </div>
       </div>
     </div>
+  </div>
 
   </main>
   <?php include_once 'layout/footer.php'; ?>
