@@ -61,31 +61,31 @@ include_once 'controller/controllerCarteirinha.php';
     </div>
 
     <div class="container mt-5">
-    <div class="card col-md-8 mx-auto">
-      <div class="row g-0">
-        <div class="col-md-4 d-flex align-items-center justify-content-center">
-          <img src="<?= $carteirinha['path_foto'] ?>" class="img-fluid rounded-start" alt="Foto do Aluno" style="max-height: 200px;">
-        </div>
-
-        <div class="col-md-4">
-          <div class="card-body">
-            <h5 class="card-title">Nome</h5>
-            <p class="card-text fs-5"><?= $carteirinha['nome'] ?></p>
-
-            <h5 class="card-title">CPF</h5>
-            <p class="card-text fs-5"><?= $carteirinha['cpf'] ?></p>
-
-            <h5 class="card-title">Turma</h5>
-            <p class="card-text fs-5"><?= $carteirinha['horario'] ?></p>
+      <div class="card col-md-8 mx-auto">
+        <div class="row g-0">
+          <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <img src="<?= $carteirinha['path_foto'] ?>" class="img-fluid rounded-start" alt="Foto do Aluno" style="max-height: 200px;">
           </div>
-        </div>
 
-        <div class="col-md-4 d-flex align-items-center justify-content-center">
-          <img src="assets/img/logoR7.png" class="img-fluid rounded-start" alt="Foto do Aluno" style="max-height: 200px;">
+          <div class="col-md-4">
+            <div class="card-body">
+              <h5 class="card-title">Nome</h5>
+              <p class="card-text fs-5"><?= $carteirinha['nome'] ?></p>
+
+              <h5 class="card-title">CPF</h5>
+              <p class="card-text fs-5"><?= $carteirinha['cpf'] ?></p>
+
+              <h5 class="card-title">Turma</h5>
+              <p class="card-text fs-5"><?= $carteirinha['horario'] ?></p>
+            </div>
+          </div>
+
+          <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <img src="assets/img/logoR7.png" class="img-fluid rounded-start" alt="Foto do Aluno" style="max-height: 200px;">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
   </main>
   <?php include_once 'layout/footer.php'; ?>

@@ -123,7 +123,7 @@
 
                     <div class="row">
                       <div class="col-12 mb-4">
-                        <label for="formFileSm" class="form-label">Adicione aqui a uma foto para carteirinha</label>
+                        <label for="formFileSm" class="form-label">Adicione aqui a uma foto para carteirinha (JPEG, JPG, PNG)</label>
                         <input class="form-control form-control-sm" id="formFileSm" type="file" name="foto">
                       </div>
                     </div>

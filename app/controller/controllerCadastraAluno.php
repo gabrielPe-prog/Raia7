@@ -38,7 +38,7 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
   $foto = $_FILES['foto'];
 
   $tamanhoMaximo = 2 * 1024 * 1024;
-  $tiposPermitidos = ['image/jpeg', 'image/png'];
+  $tiposPermitidos = ['image/jpeg', 'image/png', 'image/jpg'];
 
   if ($foto['size'] > $tamanhoMaximo) {
     echo json_encode(['status' => 'error', 'message' => 'A foto excede o tamanho máximo permitido (2MB).']);

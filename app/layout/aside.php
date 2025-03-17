@@ -46,6 +46,13 @@
       </li>
 
       <li class="nav-item">
+        <a class="nav-link " href="infoAlunos.php">
+        <i class="bi bi-card-list"></i>
+          <span>Informações do Aluno</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link " href="carteirinha.php">
           <i class="bi bi-person-vcard-fill"></i>
           <span>Carteirinha</span>
