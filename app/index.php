@@ -41,6 +41,14 @@ if (!isset($_SESSION)) {
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
+      background-color: #f8f9fa;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        background-image: url("assets/img/logo_mobile.png");
+        background-size: cover;
+      }
     }
 
     #logo_code {
@@ -51,6 +59,26 @@ if (!isset($_SESSION)) {
     #logo_r7 {
       height: 220px;
       width: 370px;
+    }
+
+    @media (max-width: 768px) {
+      #logo_r7 {
+        height: 150px;
+        width: 250px;
+      }
+
+      #logo_code {
+        height: 60px;
+        width: 65px;
+      }
+
+      .section.register {
+        padding: 20px;
+      }
+
+      .card {
+        margin: 10px;
+      }
     }
   </style>
 
@@ -93,7 +121,7 @@ if (!isset($_SESSION)) {
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div class="col-lg-4 col-md-6 col-sm-8 d-flex flex-column align-items-center justify-content-center">
               <div class="card mb-3">
                 <div class="card-body">
                   <div class="d-flex justify-content-center py-4">
@@ -109,16 +137,16 @@ if (!isset($_SESSION)) {
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">CPF do Usuário</label>
-                      <input type="text" name="cpf" class="form-control" id="cpf">
+                      <input type="text" name="cpf" class="form-control form-control-sm" id="cpf">
                     </div>
 
                     <div class="col-12">
                       <label for="senha" class="form-label">Senha</label>
-                      <input type="password" name="senha" class="form-control" id="senha">
+                      <input type="password" name="senha" class="form-control form-control-sm" id="senha">
                     </div>
 
                     <div class="col-12">
-                      <button class="btn btn-danger w-100" type="submit">Login</button>
+                      <button class="btn btn-danger w-100 btn-sm" type="submit">Login</button>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">Não tem Acesso? <a href="formCadastro.php">Realizar Cadastro</a></p>
