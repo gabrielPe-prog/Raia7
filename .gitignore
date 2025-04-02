@@ -2,3 +2,6 @@ db_data
 LICENSE
 app/anexo_alunos
 app/carteirinhasCriadas
+app/vendor
+app/composer.json
+app/composer.lock
