@@ -86,53 +86,33 @@ include_once 'controller/controllerFinanceiro.php';
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Tabela de Alunos</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="card-title">Tabela de Pagamentos</h5>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adicionarPagamento">
+                                    <i class="bi bi-plus-circle"></i> Novo Pagamento
+                                </button>
+                            </div>
 
                             <table class="datatable" id="alunos">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Nome</th>
-                                        <th class="text-center">Pacote</th>
-                                        <th class="text-center">Ultimo Pagamento</th>
-                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Descrição</th>
+                                        <th class="text-center">Valor</th>
+                                        <th class="text-center">Data do Pagamento</th>
                                         <th class="text-center">Editar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     foreach ($financeiro as $f) {
-
-                                        $dataAtual = new DateTime();
-                                        $dataFinal = new DateTime($f['pagamento']);
                                         
-                                        $diferenca = $dataAtual->diff($dataFinal);
-                                        
-                                        $diasRestantes = $diferenca->days;
-                                        
-                                        switch (true) {
-                                            case ($diasRestantes == 0):
-                                                $status = "<span class='badge text-bg-warning'>Dia do Pagamento</span>";
-                                                break;
-                                            case ($diasRestantes < 0):
-                                                $status = "<span class='badge text-bg-success'>Pagamento Atrasado</span>";
-                                                break;
-                                            case ($diasRestantes > 0):
-                                                $status = "<span class='badge text-bg-success'>Aguardando Pagamento</span>";
-                                                break;
-                                            default:
-                                                $status = "Erro ao calcular a data.";
-                                                break;
-                                        }
-                                        
-                                        
-                                        
-
                                     ?>
                                         <tr>
                                             <td class="text-center"><?php echo htmlspecialchars($f['aluno_nome']); ?></td>
-                                            <td class="text-center"><?php echo htmlspecialchars($f['pacote_nome']); ?></td>
-                                            <td class="text-center"><?php echo htmlspecialchars(date('d-m-Y', strtotime($f['pagamento']))); ?></td>
-                                            <td class="text-center"><?php echo '----------'; ?></td>
+                                            <td class="text-center"><?php echo htmlspecialchars($f['descricao']); ?></td>
+                                            <td class="text-center"><?php echo "R$ " . htmlspecialchars($f['valor']); ?></td>
+                                            <td class="text-center"><?php echo htmlspecialchars(date('d-m-Y', strtotime($f['data_pagamento']))); ?></td>
                                             <td class="text-center">
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
@@ -154,18 +134,14 @@ include_once 'controller/controllerFinanceiro.php';
                                                             <div class="modal-body">
                                                                 <form class="row g-3" method="POST" action="controller/controllerAtualizaPacote.php">
 
-                                                                    <label for="pacote-<?php echo $f['id']; ?>">Pacote:</label>
-                                                                    <select class="form-select" id="pacote-<?php echo $f['id']; ?>" name="id_pacote" required>
-                                                                        <?php
-                                                                        foreach ($pacotes as $pacote) {
-                                                                            $selected = ($pacote['id'] == $f['id_pacote']) ? 'selected' : '';
-                                                                            echo "<option value='{$pacote['id']}' $selected>{$pacote['nome']}</option>";
-                                                                        }
-                                                                        ?>
-                                                                    </select>
+                                                                    <label for="descricao-<?php echo $f['id']; ?>">Descrição:</label>
+                                                                    <input type="text" class="form-control" id="descricao-<?php echo $f['id']; ?>" name="descricao" value="<?php echo htmlspecialchars($f['descricao']); ?>" required>
+
+                                                                    <label for="valor-<?php echo $f['id']; ?>">Valor:</label>
+                                                                    <input type="text" class="form-control" id="valor-<?php echo $f['id']; ?>" name="valor" value="<?php echo htmlspecialchars($f['valor']); ?>" required>
 
                                                                     <label for="pagamento-<?php echo $f['id']; ?>">Data do Pagamento:</label>
-                                                                    <input type="date" class="form-control" id="pagamento-<?php echo $f['id']; ?>" name="pagamento"
+                                                                    <input type="date" class="form-control" id="pagamento-<?php echo $f['id']; ?>" name="data_pagamento"
                                                                         value="<?php echo htmlspecialchars($f['pagamento']); ?>" required>
 
                                                                     <input type="hidden" name="id_financeiro" value="<?php echo $f['id']; ?>">
@@ -189,6 +165,55 @@ include_once 'controller/controllerFinanceiro.php';
                 </div>
             </div>
         </section>
+
+        <!-- Modal para Adicionar Pagamento -->
+        <div class="modal fade" id="adicionarPagamento" tabindex="-1" aria-labelledby="adicionarPagamentoLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="adicionarPagamentoLabel">Adicionar Novo Pagamento</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row g-3" method="POST" action="controller/controllerAdicionaPagamento.php">
+                            <div class="col-md-12 mb-3">
+                                <label for="id_aluno" class="form-label">Aluno:</label>
+                                <select class="form-select" id="id_aluno" name="id_aluno" required>
+                                    <option value="" selected disabled>Selecione um aluno</option>
+                                    <?php
+                                    if (isset($alunos) && is_array($alunos)) {
+                                        foreach ($alunos as $aluno) {
+                                            echo '<option value="' . $aluno['id_aluno'] . '">' . htmlspecialchars($aluno['nome']) . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label for="descricao" class="form-label">Descrição:</label>
+                                <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Ex: Mensalidade Julho" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="valor" class="form-label">Valor (R$):</label>
+                                <input type="text" class="form-control" id="valor" name="valor" placeholder="Ex: 150.00" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="data_pagamento" class="form-label">Data do Pagamento:</label>
+                                <input type="date" class="form-control" id="data_pagamento" name="data_pagamento" value="<?php echo date('d-m-Y'); ?>" required>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-success">Adicionar Pagamento</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <?php include_once 'layout/footer.php'; ?>
 
@@ -229,6 +254,18 @@ include_once 'controller/controllerFinanceiro.php';
                 input.value = `(${celular}`;
             }
         }
+
+        // Adiciona máscara de moeda ao campo de valor
+        document.addEventListener('DOMContentLoaded', function() {
+            const valorInput = document.getElementById('valor');
+            if (valorInput) {
+                valorInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = (parseInt(value) / 100).toFixed(2);
+                    e.target.value = value;
+                });
+            }
+        });
     </script>
 
     <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>

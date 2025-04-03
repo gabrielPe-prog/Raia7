@@ -15,7 +15,8 @@ $sql = "
     SELECT 
         user.*, 
         alunos.id_turma,
-        alunos.path_foto
+        alunos.path_foto,
+        alunos.id_aluno
     FROM 
         user 
     INNER JOIN 
@@ -94,6 +95,8 @@ if ($acesso_usuario && password_verify($senha_digitada, $acesso_usuario['senha']
   $_SESSION['nome'] = $acesso_usuario["nome"];
   $_SESSION["nivel"] = $acesso_usuario["nivel"];
   $_SESSION["cpf"] = $acesso_usuario["cpf"];
+  $_SESSION["id_aluno"] = $acesso_usuario["id_aluno"];
+  $_SESSION["id_user"] = $acesso_usuario["id_user"];
 
   header('Location: ../paginaInicial.php');
   exit;

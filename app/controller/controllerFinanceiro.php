@@ -9,20 +9,23 @@ include_once("service/connection_create.php");
 
 $conn = conexao_pdo();
 
+$listaAlunos = "SELECT id_aluno, nome FROM alunos";
+$stm = $conn->prepare($listaAlunos);
+$stm->execute();
+$alunos = $stm->fetchAll(PDO::FETCH_ASSOC);
+
 $sql = "SELECT 
-    f.*, 
+    p.*,
     a.id_aluno,
-    a.nome AS aluno_nome, 
-    p.nome AS pacote_nome,
-    p.sobre AS pacote_sobre
-FROM financeiro f
-JOIN alunos a ON f.id_aluno = a.id_aluno
-JOIN pacotes p ON f.id_pacote = p.id;";
+    a.nome AS aluno_nome
+FROM pagamentos p
+JOIN alunos a ON p.aluno_id = a.id_aluno;";
 $stm = $conn->prepare($sql);
 $stm->execute();
 $financeiro = $stm->fetchAll(PDO::FETCH_ASSOC);
 
-$sql2 = "SELECT id, nome FROM pacotes";
-$stmt2 = $conn->prepare($sql2);
-$stmt2->execute();
-$pacotes = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+$pagAlunos = "SELECT p.* FROM pagamentos p WHERE p.aluno_id = :id_aluno";
+$stm = $conn->prepare($pagAlunos);
+$stm->bindParam(":id_aluno", $_SESSION["id_aluno"]);
+$stm->execute();
+$pagAluno = $stm->fetchAll(PDO::FETCH_ASSOC);

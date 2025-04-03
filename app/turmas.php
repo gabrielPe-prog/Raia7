@@ -115,7 +115,7 @@ include_once 'controller/controllerInfo.php';
                               <td><?= htmlspecialchars($aluno['nome']) ?></td>
                               <td><?= htmlspecialchars($aluno['cpf']) ?></td>
                               <td><?= htmlspecialchars($aluno['contato']) ?></td>
-                              <td><?= htmlspecialchars($aluno['data_nascimento']) ?></td>
+                              <td><?= date('d-m-Y', strtotime(htmlspecialchars($aluno['data_nascimento']))) ?></td>
                             </tr>
                           <?php endforeach; ?>
                         <?php else: ?>

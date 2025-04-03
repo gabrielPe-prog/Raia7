@@ -81,7 +81,7 @@
                       </div>
                       <div class="col-6">
                         <label for="cpf" class="form-label">CPF*</label>
-                        <input type="text" class="form-control" id="cpf" name="cpf" maxlength="11">
+                        <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14">
                       </div>
                     </div>
 
@@ -123,15 +123,20 @@
 
                     <div class="row">
                       <div class="col-12 mb-4">
-                        <label for="formFileSm" class="form-label">Adicione aqui a uma foto para carteirinha (JPEG, JPG, PNG)</label>
+                        <label for="formFileSm" class="form-label">Adicione aqui a uma foto para carteirinha (JPEG, JPG)*</label>
                         <input class="form-control form-control-sm" id="formFileSm" type="file" name="foto">
                       </div>
                     </div>
 
                     <div class="row mb-4">
-                      <div class="col-12">
+                      <div class="col-6">
                         <label for="obs_saude" class="form-label">Observações Médicas*</label>
                         <input type="text" class="form-control" id="obs_saude" name="obs_saude">
+                      </div>
+
+                      <div class="col-6">
+                        <label for="senha_acesso" class="form-label">Senha de Acesso*</label>
+                        <input type="text" class="form-control" id="senha_acesso" name="senha_acesso">
                       </div>
                     </div>
 

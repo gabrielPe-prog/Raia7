@@ -103,7 +103,8 @@ include_once 'controller/controllerInfoAluno.php';
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <h5 class="card-title">Data de Nascimento</h5>
-                            <p class="card-text"><?= $alunos['data_nascimento'] ?></p>
+                            <p class="card-text"><?= date('d-m-Y', strtotime($alunos['data_nascimento'])) ?></p>
+
                         </div>
                         <div class="col-md-6">
                             <h5 class="card-title">Observação sobre Saúde</h5>

@@ -11,10 +11,11 @@ $conn = conexao_pdo();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_financeiro = $_POST['id_financeiro'];
-    $id_pacote = $_POST['id_pacote'];
-    $pagamento = $_POST['pagamento'];
+    $descricao = $_POST['descricao'];
+    $pagamento = $_POST['data_pagamento'];
+    $valor = $_POST['valor'];
 
-    if (empty($id_financeiro) || empty($id_pacote) || empty($pagamento)) {
+    if (empty($id_financeiro) || empty($descricao) || empty($pagamento) || empty($valor)) {
         $_SESSION['update_status'] = 'error';
         $_SESSION['update_message'] = 'Preencha todos os campos!';
         header('Location: ../financeiro.php');
@@ -22,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $conn->prepare("UPDATE financeiro SET id_pacote = ?, pagamento = ? WHERE id = ?");
-        $stmt->execute([$id_pacote, $pagamento, $id_financeiro]);
+        $stmt = $conn->prepare("UPDATE pagamentos SET descricao = ?, data_pagamento = ?, valor = ? WHERE id = ?");
+        $stmt->execute([$descricao, $pagamento, $valor, $id_financeiro]);
 
         $_SESSION['update_status'] = 'success';
         $_SESSION['update_message'] = 'Dados atualizados com sucesso!';

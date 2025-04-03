@@ -14,6 +14,7 @@ $endereco = $_POST['endereco'];
 $cep = $_POST['cep'];
 $foto = $_FILES['foto'];
 $obs_saude = $_POST['obs_saude'];
+$senha_acesso = $_POST['senha_acesso'];
 
 if (empty($nome) || empty($cpf) || empty($contato) || empty($data_nascimento) || empty($endereco) || empty($cep) || empty($obs_saude) || empty($foto['name'])) {
   echo json_encode(['status' => 'error', 'message' => 'Preencha todos os campos obrigatórios!']);
@@ -38,7 +39,7 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
   $foto = $_FILES['foto'];
 
   $tamanhoMaximo = 2 * 1024 * 1024;
-  $tiposPermitidos = ['image/jpeg', 'image/png', 'image/jpg'];
+  $tiposPermitidos = ['image/jpeg', 'image/jpg'];
 
   if ($foto['size'] > $tamanhoMaximo) {
     echo json_encode(['status' => 'error', 'message' => 'A foto excede o tamanho máximo permitido (2MB).']);
@@ -70,7 +71,7 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
   exit();
 }
 
-$senha_hash = password_hash($cpf, PASSWORD_DEFAULT);
+$senha_hash = password_hash($senha_acesso, PASSWORD_DEFAULT);
 
 $sql = "INSERT INTO alunos(
                 nome,

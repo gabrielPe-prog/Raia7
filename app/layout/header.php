@@ -25,8 +25,14 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li>
+            <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#alterarSenhaModal">
+              <i class="bi bi-key"></i>
+              <span>Alterar Senha</span>
+            </a>
+          </li>
+          <li>
             <a class="dropdown-item d-flex align-items-center" href="controller/controllerLogout.php">
-              <i class="bi bi-box-arrow-right"></i>
+              <i class="bi bi-door-open"></i>
               <span>Sair do Sistema</span>
             </a>
           </li>
@@ -34,4 +40,82 @@
       </li>
     </ul>
   </nav>
+
+
 </header>
+
+<div class="modal fade" id="alterarSenhaModal" tabindex="-1" aria-labelledby="alterarSenhaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alterarSenhaModalLabel">Alterar Senha</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formAlterarSenha" action="controller/controllerAtualizaSenha.php" method="POST">
+          <input type="text" value="1" hidden name="tipo">
+          <div class="mb-3">
+            <label for="cpf" class="form-label">CPF para validação</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite seu CPF" required onkeyup="CpfMask(this)">
+            <div class="form-text">Digite seu CPF para confirmar sua identidade.</div>
+          </div>
+          <div class="mb-3">
+            <label for="nova_senha" class="form-label">Nova Senha</label>
+            <input type="password" class="form-control" id="nova_senha" name="nova_senha" required>
+          </div>
+          <div class="mb-3">
+            <label for="confirma_senha" class="form-label">Confirmar Nova Senha</label>
+            <input type="password" class="form-control" id="confirma_senha" name="confirma_senha" required>
+            <div id="senhaHelp" class="form-text text-danger"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success" id="btnAlterarSenha">Alterar Senha</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  function CpfMask(input) {
+    const value = input.value.replace(/\D/g, '');
+    input.value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const formAlterarSenha = document.getElementById('formAlterarSenha');
+    const novaSenha = document.getElementById('nova_senha');
+    const confirmaSenha = document.getElementById('confirma_senha');
+    const senhaHelp = document.getElementById('senhaHelp');
+    const btnAlterarSenha = document.getElementById('btnAlterarSenha');
+
+    function validarSenhas() {
+      if (novaSenha.value !== confirmaSenha.value) {
+        senhaHelp.textContent = 'As senhas não coincidem!';
+        btnAlterarSenha.disabled = true;
+        return false;
+      } else {
+        senhaHelp.textContent = '';
+        btnAlterarSenha.disabled = false;
+        return true;
+      }
+    }
+
+    novaSenha.addEventListener('input', validarSenhas);
+    confirmaSenha.addEventListener('input', validarSenhas);
+
+    formAlterarSenha.addEventListener('submit', function(e) {
+      if (!validarSenhas()) {
+        e.preventDefault();
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: 'As senhas não coincidem!'
+        });
+      }
+    });
+  });
+</script>

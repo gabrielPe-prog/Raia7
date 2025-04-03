@@ -7,6 +7,7 @@ date_default_timezone_set('America/Recife');
 
 include_once 'service/checkAccess.php';
 include_once 'controller/controllerInfo.php';
+include_once 'controller/controllerFinanceiro.php';
 ?>
 
 <!DOCTYPE html>
@@ -66,26 +67,34 @@ include_once 'controller/controllerInfo.php';
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Histórico de Pagamentos</h5>
-                            
+
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Pacote</th>
+                                            <th scope="col">Valor</th>
                                             <th scope="col">Data Pagamento</th>
-                                            <th scope="col">Status</th>
+                                            <th scope="col">Descrição</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><?php echo $status ?></td>
-                                            <td><?php echo $status ?></td>
-                                            <td><?php echo $status ?></td>
-                                        </tr>
+                                        <?php if (isset($pagAluno) && is_array($pagAluno) && count($pagAluno) > 0): ?>
+                                            <?php foreach ($pagAluno as $pagamento): ?>
+                                                <tr>
+                                                    <td>R$ <?php echo number_format($pagamento["valor"], 2, ',', '.'); ?></td>
+                                                    <td><?php echo date('d-m-Y', strtotime($pagamento["data_pagamento"])); ?></td>
+                                                    <td><?php echo htmlspecialchars($pagamento["descricao"]); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="3" class="text-center">Nenhum pagamento encontrado.</td>
+                                            </tr>
+                                        <?php endif; ?>
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -108,4 +117,5 @@ include_once 'controller/controllerInfo.php';
     <script src="assets/js/main.js"></script>
 
 </body>
+
 </html>

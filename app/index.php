@@ -80,6 +80,44 @@ if (!isset($_SESSION)) {
         margin: 10px;
       }
     }
+    
+    .action-btn {
+      padding: 8px 15px;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: inline-block;
+      text-align: center;
+      margin: 5px 0;
+    }
+    
+    .btn-cadastro {
+      background-color: #4154f1;
+      color: white;
+      border: 1px solid #4154f1;
+    }
+    
+    .btn-cadastro:hover {
+      background-color: #364af3;
+      color: white;
+    }
+    
+    .btn-senha {
+      background-color: #4154f1;
+      color: white;
+      border: 1px solid #4154f1;
+    }
+    
+    .btn-senha:hover {
+      background-color: #364af3;
+      color: white;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
   </style>
 
 </head>
@@ -112,6 +150,22 @@ if (!isset($_SESSION)) {
                 </script>';
     }
     unset($_SESSION['erroLogin']);
+  }
+  
+  if (isset($_SESSION['update_status']) && isset($_SESSION['update_message'])) {
+    $status = $_SESSION['update_status'];
+    $message = $_SESSION['update_message'];
+    
+    echo "<script>
+            Swal.fire({
+                icon: '$status',
+                title: '" . ($status == 'success' ? 'Sucesso!' : 'Erro!') . "',
+                text: '$message'
+            });
+          </script>";
+    
+    unset($_SESSION['update_status']);
+    unset($_SESSION['update_message']);
   }
 
   ?>
@@ -148,8 +202,14 @@ if (!isset($_SESSION)) {
                     <div class="col-12">
                       <button class="btn btn-danger w-100 btn-sm" type="submit">Login</button>
                     </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Não tem Acesso? <a href="formCadastro.php">Realizar Cadastro</a></p>
+                    
+                    <div class="col-12 action-buttons">
+                      <a href="formCadastro.php" class="action-btn btn-cadastro">
+                        <i class="bi bi-person-plus"></i> Cadastrar
+                      </a>
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#alterarSenhaModal" class="action-btn btn-senha">
+                        <i class="bi bi-key"></i> Alterar Senha
+                      </a>
                     </div>
                   </form>
 
@@ -161,11 +221,44 @@ if (!isset($_SESSION)) {
             </div>
           </div>
         </div>
-
       </section>
-
     </div>
   </main><!-- End #main -->
+
+  <!-- Modal para Alterar Senha -->
+  <div class="modal fade" id="alterarSenhaModal" tabindex="-1" aria-labelledby="alterarSenhaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alterarSenhaModalLabel">Alterar Senha</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formAlterarSenha" action="controller/controllerAtualizaSenha.php" method="POST">
+          <input type="text" value="0" hidden name="tipo">
+          <div class="mb-3">
+            <label for="cpf" class="form-label">CPF para validação</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite seu CPF" required onkeyup="CpfMask(this)">
+            <div class="form-text">Digite seu CPF para confirmar sua identidade.</div>
+          </div>
+          <div class="mb-3">
+            <label for="nova_senha" class="form-label">Nova Senha</label>
+            <input type="password" class="form-control" id="nova_senha" name="nova_senha" required>
+          </div>
+          <div class="mb-3">
+            <label for="confirma_senha" class="form-label">Confirmar Nova Senha</label>
+            <input type="password" class="form-control" id="confirma_senha" name="confirma_senha" required>
+            <div id="senhaHelp" class="form-text text-danger"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success" id="btnAlterarSenha">Alterar Senha</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -181,6 +274,39 @@ if (!isset($_SESSION)) {
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  
+  <script>
+    // Formatação de CPF
+    document.getElementById('cpf').addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 11) value = value.slice(0, 11);
+      
+      if (value.length > 9) {
+        value = value.replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
+      } else if (value.length > 6) {
+        value = value.replace(/^(\d{3})(\d{3})(\d{0,3}).*/, '$1.$2.$3');
+      } else if (value.length > 3) {
+        value = value.replace(/^(\d{3})(\d{0,3}).*/, '$1.$2');
+      }
+      
+      e.target.value = value;
+    });
+    
+    document.getElementById('cpf_modal').addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 11) value = value.slice(0, 11);
+      
+      if (value.length > 9) {
+        value = value.replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
+      } else if (value.length > 6) {
+        value = value.replace(/^(\d{3})(\d{3})(\d{0,3}).*/, '$1.$2.$3');
+      } else if (value.length > 3) {
+        value = value.replace(/^(\d{3})(\d{0,3}).*/, '$1.$2');
+      }
+      
+      e.target.value = value;
+    });
+  </script>
 
 </body>
 
