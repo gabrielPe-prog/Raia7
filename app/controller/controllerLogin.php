@@ -6,7 +6,8 @@ date_default_timezone_set('America/Recife');
 
 require_once("../service/connection_create.php");
 
-$cpf = $_POST['cpf'];
+$cpfNumerico = $_POST['cpf'];
+$cpf = str_replace(['.', '-'], '', $cpfNumerico);
 $senha_digitada = $_POST['senha'];
 
 $conn = conexao_pdo();
