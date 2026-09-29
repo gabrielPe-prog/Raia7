@@ -10,10 +10,9 @@
 
   <div class="d-flex align-items-center justify-content-between">
     <a href="paginaInicial.php" class="logo d-flex align-items-center">
-      <img src="assets/img/logoR7.png" alt="">
-      <span class="d-none d-lg-block">Academia Aquática Raia7</span>
+      <img src="assets/img/logoR7.png" alt="Raia7">
     </a>
-    <i class="bi bi-list toggle-sidebar-btn"></i>
+    <button type="button" class="toggle-sidebar-btn" aria-label="Abrir ou fechar menu" aria-controls="sidebar" aria-expanded="false"><i class="bi bi-list"></i></button>
   </div>
 
   <nav class="header-nav ms-auto">
@@ -21,7 +20,7 @@
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-person-badge-fill"></i>
-          <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['nome']; ?></span>
+          <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo htmlspecialchars((string) ($_SESSION['nome'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="utf-8">
@@ -10,8 +10,8 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/favicon/favicon-96x96.png" rel="icon">
+  <link href="assets/favicon/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -31,28 +31,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
 
-  <style>
-    body {
-      background-image: url("assets/img/bg.png");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-    }
 
-    #logo_code {
-      height: 80px;
-      width: 85px;
-    }
 
-    #logo_r7 {
-      height: 150px;
-      width: 300px;
-    }
-  </style>
-
+  <link href="assets/css/raia-theme.css" rel="stylesheet">
+  <script src="assets/js/raia-ui.js" defer></script>
 </head>
 
-<body>
+<body class="auth-page signup-page">
 
   <main>
     <div class="container px-3 py-3">
@@ -65,11 +50,11 @@
                 <div class="card-body">
 
                   <div class="d-flex justify-content-center">
-                    <img id="logo_r7" src="assets/img/logoR7.png" alt="">
+                    <img id="logo_r7" src="assets/img/logoR7.png" alt="Academia Aquática Raia7">
                   </div>
-                  <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Realizar Cadastro</h5>
-                    <p class="text-center small">Preencha os campos para realizar o cadastro</p>
+                  <a href="index.php" class="auth-back"><i class="bi bi-arrow-left"></i> Voltar para o login</a><div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Comece sua jornada na água.</h5>
+                    <p class="text-center small">Preencha seus dados para fazer parte da Raia7.</p>
                   </div>
 
                   <form class="row g-3" method="POST" action="controller/controllerCadastraAluno.php"
@@ -141,7 +126,7 @@
                     </div>
 
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Realizar Cadastro</button>
+                      <button class="btn btn-primary w-100" type="submit">Comece sua jornada na água.</button>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">Você já tem um cadastro? <a href="index.php">Faça Login</a></p>
@@ -245,6 +230,6 @@
     });
   </script>
 
-  <body>
+  </body>
 
 </html>

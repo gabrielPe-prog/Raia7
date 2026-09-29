@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="utf-8">
@@ -16,8 +16,8 @@ if (!isset($_SESSION)) {
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/favicon/favicon-96x96.png" rel="icon">
+  <link href="assets/favicon/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -35,94 +35,13 @@ if (!isset($_SESSION)) {
 
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <style>
-    body {
-      background-image: url("assets/img/bg.png");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      background-color: #f8f9fa;
-    }
-    
-    @media (max-width: 768px) {
-      body {
-        background-image: url("assets/img/logo_mobile.png");
-        background-size: cover;
-      }
-    }
 
-    #logo_code {
-      height: 80px;
-      width: 85px;
-    }
 
-    #logo_r7 {
-      height: 220px;
-      width: 370px;
-    }
-
-    @media (max-width: 768px) {
-      #logo_r7 {
-        height: 150px;
-        width: 250px;
-      }
-
-      #logo_code {
-        height: 60px;
-        width: 65px;
-      }
-
-      .section.register {
-        padding: 20px;
-      }
-
-      .card {
-        margin: 10px;
-      }
-    }
-    
-    .action-btn {
-      padding: 8px 15px;
-      border-radius: 4px;
-      font-weight: 500;
-      transition: all 0.3s;
-      display: inline-block;
-      text-align: center;
-      margin: 5px 0;
-    }
-    
-    .btn-cadastro {
-      background-color: #4154f1;
-      color: white;
-      border: 1px solid #4154f1;
-    }
-    
-    .btn-cadastro:hover {
-      background-color: #364af3;
-      color: white;
-    }
-    
-    .btn-senha {
-      background-color: #4154f1;
-      color: white;
-      border: 1px solid #4154f1;
-    }
-    
-    .btn-senha:hover {
-      background-color: #364af3;
-      color: white;
-    }
-    
-    .action-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-    }
-  </style>
-
+  <link href="assets/css/raia-theme.css" rel="stylesheet">
+  <script src="assets/js/raia-ui.js" defer></script>
 </head>
 
-<body>
+<body class="auth-page login-page">
 
   <?php
 
@@ -176,31 +95,31 @@ if (!isset($_SESSION)) {
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 col-sm-8 d-flex flex-column align-items-center justify-content-center">
-              <div class="card mb-3">
+              <div class="auth-intro"><span class="eyebrow">RAIA7 · AQUAMANAGER</span><h1>Sua vida na água.<br>Mais simples.</h1><p>Aulas, mensalidades e sua carteirinha.<br>Tudo no seu ritmo, em um só lugar.</p><div class="water-lines" aria-hidden="true"></div></div><div class="card mb-3">
                 <div class="card-body">
                   <div class="d-flex justify-content-center py-4">
-                    <img id="logo_r7" src="assets/img/logoR7.png" alt="">
+                    <img id="logo_r7" src="assets/img/logoR7.png" alt="Academia Aquática Raia7">
                   </div>
 
                   <div class="">
-                    <h5 class="card-title text-center pb-0 fs-4">Faça Login no Sistema</h5>
-                    <p class="text-center small">Use seu nome de usuário e senha para acessar</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Bom ter você por aqui.</h5>
+                    <p class="text-center small">Entre com seu CPF e senha para acessar o AquaManager.</p>
                   </div>
 
                   <form action="controller/controllerLogin.php" method="POST" class="row g-3">
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">CPF do Usuário</label>
-                      <input type="text" name="cpf" class="form-control form-control-sm" id="cpf">
+                      <label for="cpf" class="form-label">CPF do Usuário</label>
+                      <input type="text" name="cpf" class="form-control form-control-sm" id="cpf" autocomplete="username" inputmode="numeric" placeholder="000.000.000-00" required>
                     </div>
 
                     <div class="col-12">
                       <label for="senha" class="form-label">Senha</label>
-                      <input type="password" name="senha" class="form-control form-control-sm" id="senha">
+                      <input type="password" name="senha" class="form-control form-control-sm" id="senha" autocomplete="current-password" required>
                     </div>
 
                     <div class="col-12">
-                      <button class="btn btn-danger w-100 btn-sm" type="submit">Login</button>
+                      <button class="btn btn-primary w-100" type="submit">Entrar na minha conta <i class="bi bi-arrow-right ms-2"></i></button>
                     </div>
                     
                     <div class="col-12 action-buttons">
@@ -237,8 +156,8 @@ if (!isset($_SESSION)) {
         <form id="formAlterarSenha" action="controller/controllerAtualizaSenha.php" method="POST">
           <input type="text" value="0" hidden name="tipo">
           <div class="mb-3">
-            <label for="cpf" class="form-label">CPF para validação</label>
-            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite seu CPF" required onkeyup="CpfMask(this)">
+            <label for="cpf_modal" class="form-label">CPF para validação</label>
+            <input type="text" class="form-control" id="cpf_modal" name="cpf" placeholder="Digite seu CPF" required>
             <div class="form-text">Digite seu CPF para confirmar sua identidade.</div>
           </div>
           <div class="mb-3">

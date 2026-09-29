@@ -10,7 +10,7 @@ include_once 'controller/controllerInfo.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="utf-8">
@@ -21,8 +21,8 @@ include_once 'controller/controllerInfo.php';
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="assets/favicon/favicon-96x96.png" rel="icon">
+    <link href="assets/favicon/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -40,6 +40,8 @@ include_once 'controller/controllerInfo.php';
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
 
+  <link href="assets/css/raia-theme.css" rel="stylesheet">
+  <script src="assets/js/raia-ui.js" defer></script>
 </head>
 
 <?php include_once 'layout/header.php'; ?>
@@ -54,10 +56,11 @@ include_once 'controller/controllerInfo.php';
             <h1>Pagamentos</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="paginaInicial.php">Home</a></li>
+                    <li class="breadcrumb-item"><a href="paginaInicial.php">Início</a></li>
                     <li class="breadcrumb-item active">Pagamentos</li>
                 </ol>
             </nav>
+      <?php $reportType = 'pagamentosAluno'; include __DIR__ . '/layout/export.php'; ?>
         </div><!-- End Page Title -->
 
         <section class="section dashboard">

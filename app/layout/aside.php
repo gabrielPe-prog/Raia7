@@ -1,4 +1,5 @@
-<aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar" aria-label="Menu principal">
+  <div class="sidebar-heading">SEU ESPAÇO RAIA7</div>
 
   <?php
   if ($_SESSION['nivel'] == 1): ?>
@@ -75,4 +76,5 @@
     </ul>
 
   <?php endif; ?>
+<div class="sidebar-bottom"><i class="bi bi-water"></i><strong>Movimento que faz bem.</strong><span>Dentro e fora da água.</span></div>
 </aside>

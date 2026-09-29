@@ -10,7 +10,7 @@
   ?>
 
   <!DOCTYPE html>
-  <html lang="en">
+  <html lang="pt-BR">
 
   <head>
     <meta charset="utf-8">
@@ -21,8 +21,8 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="assets/favicon/favicon-96x96.png" rel="icon">
+    <link href="assets/favicon/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -40,7 +40,9 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
 
-  </head>
+    <link href="assets/css/raia-theme.css" rel="stylesheet">
+  <script src="assets/js/raia-ui.js" defer></script>
+</head>
 
   <?php include_once 'layout/header.php'; ?>
 
@@ -71,32 +73,29 @@
         <h1>Informações Gerais</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="paginaInicial.php">Home</a></li>
+            <li class="breadcrumb-item"><a href="paginaInicial.php">Início</a></li>
             <li class="breadcrumb-item active">Informações Gerais</li>
           </ol>
         </nav>
       </div><!-- End Page Title -->
 
       <section class="section dashboard">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="card-body pt-4">
-                <div class="row align-items-center">
-                  <div class="col-md-12 text-center">
-                    <h3 class="card-title pb-0 mb-3 text-primary">Bem-vindo à Academia Aquática R7!</h3>
-
-                    <p class="fs-5"><i class="bi bi-person-badge me-2 text-secondary"></i>Ei, nadador(a)! Seu portal pessoal está pronto para você.</p>
-
-                    <p class="fs-5"><i class="bi bi-info-circle me-2 text-secondary"></i>Aqui você encontra tudo sobre sua vida na piscina: carteirinha digital, informações sobre aulas e controle de mensalidades.</p>
-
-                    <p class="fs-5"><i class="bi bi-emoji-smile me-2 text-secondary"></i>Mergulhe de cabeça na praticidade! Com o Sistema R7, você foca no que importa: nadar e se divertir, enquanto nós cuidamos da burocracia.</p>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="welcome-panel">
+          <div><span class="eyebrow">ACADEMIA AQUÁTICA RAIA7</span>
+          <h2>Um novo dia.<br>Mais um mergulho.</h2>
+          <p>Bem-vindo ao seu espaço na Raia7. Tudo o que você precisa para seguir em movimento está aqui.</p>
+          <a class="btn btn-light" href="<?= $_SESSION['nivel'] == 1 ? 'alunos.php' : 'infoAlunos.php' ?>"> <?= $_SESSION['nivel'] == 1 ? 'Gerenciar alunos' : 'Ver meus dados' ?> <i class="bi bi-arrow-up-right ms-2"></i></a></div>
+          <div class="water-lines" aria-hidden="true"></div>
+        </div>
+        <div class="section-heading"><div><span class="eyebrow">NO SEU RITMO</span><h2>O que vamos fazer hoje?</h2></div><span>Acesso rápido</span></div>
+        <div class="quick-grid">
+        <?php
+          $shortcuts = $_SESSION['nivel'] == 1
+            ? [['alunos.php', 'bi-people', 'Alunos', 'Acompanhe matrículas e informações dos seus alunos.'], ['turmas.php', 'bi-calendar-week', 'Turmas', 'Consulte os horários e os alunos de cada turma.'], ['financeiro.php', 'bi-wallet2', 'Financeiro', 'Organize pagamentos e acompanhe as mensalidades.']]
+            : [['infoAlunos.php', 'bi-person', 'Meus dados', 'Consulte suas informações e dados de matrícula.'], ['carteirinha.php', 'bi-person-vcard', 'Minha carteirinha', 'Sua identificação de aluno sempre à mão.'], ['infoPagAlunos.php', 'bi-wallet2', 'Mensalidades', 'Acompanhe seu histórico de pagamentos.']];
+          foreach ($shortcuts as [$url, $icon, $label, $description]): ?>
+          <a class="quick-card" href="<?= $url ?>"><span class="quick-icon"><i class="bi <?= $icon ?>"></i></span><h3><?= $label ?></h3><p><?= $description ?></p><span class="quick-link">Acessar <i class="bi bi-arrow-right"></i></span></a>
+        <?php endforeach; ?>
         </div>
       </section>
 

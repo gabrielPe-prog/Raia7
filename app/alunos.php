@@ -9,7 +9,7 @@ include_once 'service/checkAccess.php';
 include_once 'controller/controllerVisualizaAlunos.php';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="utf-8">
@@ -40,6 +40,8 @@ include_once 'controller/controllerVisualizaAlunos.php';
 
   <link href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css">
 
+  <link href="assets/css/raia-theme.css" rel="stylesheet">
+  <script src="assets/js/raia-ui.js" defer></script>
 </head>
 
 <?php include_once 'layout/header.php'; ?>
@@ -53,10 +55,11 @@ include_once 'controller/controllerVisualizaAlunos.php';
       <h1>Alunos Matriculados</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="paginaInicial.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="paginaInicial.php">Início</a></li>
           <li class="breadcrumb-item active">Alunos Matriculados</li>
         </ol>
       </nav>
+      <?php $reportType = 'alunos'; include __DIR__ . '/layout/export.php'; ?>
     </div>
 
     <div class="col-lg-12">

@@ -9,16 +9,16 @@ date_default_timezone_set('America/Recife');
 
 $conn = conexao_pdo();
 
-$sql = "SELECT 
-            alunos.*, 
-            turmas.horario 
-        FROM 
-            alunos 
-        JOIN 
-            turmas 
-        ON 
-            alunos.id_turma = turmas.id_turma 
-        WHERE 
+$sql = "SELECT
+            alunos.*,
+            turmas.horario, turmas.piscina
+        FROM
+            alunos
+        LEFT JOIN
+            turmas
+        ON
+            alunos.id_turma = turmas.id_turma
+        WHERE
             alunos.cpf = :cpf;";
 
 $stmt = $conn->prepare($sql);

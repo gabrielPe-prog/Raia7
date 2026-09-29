@@ -5,12 +5,15 @@ if (!isset($_SESSION)) {
 }
 date_default_timezone_set('America/Recife');
 
-include_once 'service/checkAccess.php';
+if (($_SESSION['logged_in'] ?? false) !== true) {
+  header('Location: index.php');
+  exit;
+}
 include_once 'controller/controllerCarteirinha.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="utf-8">
@@ -21,8 +24,8 @@ include_once 'controller/controllerCarteirinha.php';
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/favicon/favicon-96x96.png" rel="icon">
+  <link href="assets/favicon/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -40,13 +43,14 @@ include_once 'controller/controllerCarteirinha.php';
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <link href="assets/css/raia-theme.css" rel="stylesheet">
+  <script src="assets/js/raia-ui.js" defer></script>
 </head>
 
+<body>
 <?php include_once 'layout/header.php'; ?>
 
 <?php include_once 'layout/aside.php'; ?>
-
-<body>
 
   <main id="main" class="main">
 
@@ -54,52 +58,14 @@ include_once 'controller/controllerCarteirinha.php';
       <h1>Carteirinha</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="paginaInicial.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="paginaInicial.php">Início</a></li>
           <li class="breadcrumb-item active">Carteirinha</li>
         </ol>
       </nav>
+      <?php $reportType = 'carteirinha'; include __DIR__ . '/layout/export.php'; ?>
     </div>
 
-    <?php if ($carteirinha['id_turma'] == NULL) { ?>
-
-      <div class="container mt-5">
-        <div class="col-md-4 mx-auto">
-          <div class="alert alert-warning" role="alert">
-            Sua Carteirinha está em fase de avaliação!
-          </div>
-        </div>
-      </div>
-
-    <?php } else { ?>
-
-      <div class="container mt-5">
-        <div class="card col-md-8 mx-auto">
-          <div class="row g-0">
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-              <img src="<?= $carteirinha['path_foto'] ?>" class="img-fluid rounded-start" alt="Foto do Aluno" style="max-height: 200px;">
-            </div>
-
-            <div class="col-md-4">
-              <div class="card-body">
-                <h5 class="card-title">Nome</h5>
-                <p class="card-text fs-5"><?= $carteirinha['nome'] ?></p>
-
-                <h5 class="card-title">CPF</h5>
-                <p class="card-text fs-5"><?= $carteirinha['cpf'] ?></p>
-
-                <h5 class="card-title">Turma</h5>
-                <p class="card-text fs-5"><?= $carteirinha['horario'] ?></p>
-              </div>
-            </div>
-
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-              <img src="assets/img/logoR7.png" class="img-fluid rounded-start" alt="Logo R7" style="max-height: 200px;">
-            </div>
-          </div>
-        </div>
-      </div>
-
-    <?php } ?>
+    <?php include __DIR__ . '/layout/carteirinha-digital.php'; ?>
   </main>
   <?php include_once 'layout/footer.php'; ?>
 
@@ -113,7 +79,6 @@ include_once 'controller/controllerCarteirinha.php';
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <script src="assets/js/main.js"></script>
 </body>
