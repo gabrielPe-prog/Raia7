@@ -4,6 +4,8 @@ date_default_timezone_set('America/Recife');
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 require_once __DIR__ . '/../service/studentProfile.php';
+require_once __DIR__ . '/../service/studentPhoto.php';
+$photoPath = null;
 try {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         header('Allow: POST');
@@ -26,12 +28,24 @@ try {
     }
     if (!$db instanceof PDO) throw new RuntimeException('Banco indisponível.');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    updateStudentProfile($db, $_SESSION, $data);
+    if (isset($_FILES['foto']) && !is_array($_FILES['foto'])) {
+        throw new RuntimeException('Envio de foto inválido.', 422);
+    }
+    $photoPath = saveStudentPhoto($_FILES['foto'] ?? null, (int) ($_SESSION['id_aluno'] ?? 0));
+    updateStudentProfile($db, $_SESSION, $data, $photoPath);
+    if ($photoPath !== null) {
+        unset($_SESSION['aviso_foto']);
+    }
+    unset($_SESSION['carteirinha']);
+    $photoPath = null; // O banco confirmou a gravação: preservar o novo arquivo.
     $_SESSION['nome'] = $data['nome'];
     $_SESSION['cpf'] = $data['cpf'];
     $_SESSION['profile_saved'] = true;
     echo json_encode(['success'=>true, 'message'=>'Suas informações foram atualizadas.']);
 } catch (Throwable $error) {
+    if ($photoPath !== null) {
+        @unlink(dirname(__DIR__) . '/' . $photoPath);
+    }
     $code = in_array($error->getCode(), [401,403,404,405,409,422], true) ? $error->getCode() : 500;
     http_response_code($code);
     if ($code === 500) error_log('Erro ao atualizar perfil: ' . $error->getMessage());

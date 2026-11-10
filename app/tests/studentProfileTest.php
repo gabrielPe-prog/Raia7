@@ -7,7 +7,7 @@ function expectError(callable $run, int $code): void {
 }
 $db = new PDO('sqlite::memory:');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$db->exec('CREATE TABLE alunos (id_aluno INTEGER PRIMARY KEY, cpf TEXT, nome TEXT, escola TEXT, serie_escola TEXT, contato TEXT, cep TEXT, endereco TEXT, data_nascimento TEXT, obs_saude TEXT, id_turma INTEGER)');
+$db->exec('CREATE TABLE alunos (id_aluno INTEGER PRIMARY KEY, cpf TEXT, nome TEXT, escola TEXT, serie_escola TEXT, contato TEXT, cep TEXT, endereco TEXT, data_nascimento TEXT, obs_saude TEXT, id_turma INTEGER, path_foto TEXT)');
 $db->exec('CREATE TABLE user (id_user INTEGER PRIMARY KEY, cpf TEXT, nome TEXT)');
 $db->exec("INSERT INTO alunos (id_aluno, cpf, nome, id_turma) VALUES (1, '11122233344', 'Original', 7), (2, '55566677788', 'Outro aluno', 8)");
 $db->exec("INSERT INTO user VALUES (1, '11122233344', 'Original'), (2, '55566677788', 'Outro aluno')");
@@ -32,8 +32,15 @@ expectError(fn()=>updateStudentProfile($db, array_replace($session, ['id_aluno'=
 foreach ([['cpf'=>'123'], ['cpf'=>['bad']], ['nome'=>''], ['nome'=>['array']], ['cep'=>'123'], ['contato'=>'123'], ['data_nascimento'=>'2023-02-29'], ['data_nascimento'=>'2999-01-01'], ['obs_saude'=>str_repeat('a',1001)]] as $invalid) {
     expectError(fn()=>validateStudentProfile(array_replace($input, $invalid)), 422);
 }
+updateStudentProfile($db, $session, $data, 'anexo_alunos/aluno_1/foto_teste.jpg');
+ensure($db->query('SELECT path_foto FROM alunos WHERE id_aluno=1')->fetchColumn() === 'anexo_alunos/aluno_1/foto_teste.jpg', 'Photo updated for owner');
+updateStudentProfile($db, $session, $data);
+ensure($db->query('SELECT path_foto FROM alunos WHERE id_aluno=1')->fetchColumn() === 'anexo_alunos/aluno_1/foto_teste.jpg', 'No upload preserves photo');
+ensure($db->query('SELECT path_foto FROM alunos WHERE id_aluno=2')->fetchColumn() === null, 'Other photo unchanged');
 $db->exec("CREATE TRIGGER reject_name BEFORE UPDATE ON user BEGIN SELECT RAISE(ABORT, 'Test rollback'); END");
-try { updateStudentProfile($db, $session, array_replace($data, ['nome'=>'Should roll back', 'cpf'=>'98765432100'])); } catch (PDOException $error) {}
+try { updateStudentProfile($db, $session, array_replace($data, ['nome'=>'Should roll back', 'cpf'=>'98765432100']), 'anexo_alunos/aluno_1/rollback.jpg'); } catch (PDOException $error) {}
 ensure($db->query('SELECT nome FROM alunos WHERE id_aluno=1')->fetchColumn() === 'Nome atualizado', 'Atomic update rollback');
 ensure($db->query('SELECT cpf FROM alunos WHERE id_aluno=1')->fetchColumn() === '12345678901', 'CPF rollback');
 echo "PASS: validation, own-profile isolation, protected fields, name sync, unchanged save and rollback.\n";
+
+ensure($db->query('SELECT path_foto FROM alunos WHERE id_aluno=1')->fetchColumn() === 'anexo_alunos/aluno_1/foto_teste.jpg', 'Photo rollback');

@@ -32,7 +32,7 @@ function validateStudentProfile(array $input): array
     return $data;
 }
 
-function updateStudentProfile(PDO $db, array $session, array $data): void
+function updateStudentProfile(PDO $db, array $session, array $data, ?string $photoPath = null): void
 {
     if (($session['logged_in'] ?? false) !== true || empty($session['id_aluno']) || empty($session['cpf']) || empty($session['id_user'])) {
         throw new RuntimeException('Sua sessão expirou. Entre novamente.', 401);
@@ -53,6 +53,10 @@ function updateStudentProfile(PDO $db, array $session, array $data): void
         }
         $update = $db->prepare('UPDATE alunos SET cpf = ?, nome = ?, escola = ?, serie_escola = ?, contato = ?, cep = ?, endereco = ?, data_nascimento = ?, obs_saude = ? WHERE id_aluno = ? AND cpf = ?');
         $update->execute([$data['cpf'], $data['nome'], $data['escola'], $data['serie_escola'], $data['contato'], $data['cep'], $data['endereco'], $data['data_nascimento'], $data['obs_saude'], $session['id_aluno'], $session['cpf']]);
+        if ($photoPath !== null) {
+            $photo = $db->prepare('UPDATE alunos SET path_foto = ? WHERE id_aluno = ?');
+            $photo->execute([$photoPath, $session['id_aluno']]);
+        }
         $user = $db->prepare('UPDATE user SET cpf = ?, nome = ? WHERE id_user = ? AND cpf = ?');
         $user->execute([$data['cpf'], $data['nome'], $session['id_user'], $session['cpf']]);
         $db->commit();

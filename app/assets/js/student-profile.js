@@ -38,6 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
   applyMask(document.getElementById('profile_cpf'), cpfMask);
   applyMask(document.getElementById('profile_contato'), phoneMask);
   applyMask(document.getElementById('profile_cep'), cepMask);
+  const photo = document.getElementById('profile_foto');
+  document.getElementById('editModal')?.addEventListener('shown.bs.modal', event => {
+    if (event.relatedTarget?.id === 'changeProfilePhoto') photo?.focus();
+  });
+  photo?.addEventListener('change', () => {
+    photo.setCustomValidity(photo.files[0]?.size > 2 * 1024 * 1024 ? 'A foto deve ter no máximo 2 MB.' : '');
+    photo.reportValidity();
+  });
   const button = document.getElementById('profileSave');
   const status = document.getElementById('profileStatus');
   form.addEventListener('submit', async event => {

@@ -15,6 +15,8 @@ if (!$alunos) {
     http_response_code(404);
     exit('Cadastro não encontrado. Entre em contato com a secretaria.');
 }
+require_once __DIR__ . '/service/carteirinhaView.php';
+$profilePhoto = dadosCarteirinha($alunos)['foto'];
 $profileEscape = fn($value) => htmlspecialchars((string) ($value ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 ?>
 
@@ -78,6 +80,12 @@ $profileEscape = fn($value) => htmlspecialchars((string) ($value ?? ''), ENT_QUO
                         <i class="bi bi-pencil me-2" aria-hidden="true"></i>Editar meus dados
                     </button>
 
+                    <div class="mb-3">
+                        <?php if ($profilePhoto): ?>
+                          <img src="<?= $profileEscape($profilePhoto) ?>" alt="Sua foto de cadastro" width="100" height="130" style="object-fit:cover;border-radius:8px">
+                        <?php else: ?><p class="text-muted">Você ainda não possui uma foto disponível.</p><?php endif; ?>
+                    </div>
+
                     <h5 class="card-title">Nome</h5>
                     <p class="card-text fs-5 mb-4"><?= $profileEscape($alunos['nome']) ?></p>
 
@@ -138,8 +146,13 @@ $profileEscape = fn($value) => htmlspecialchars((string) ($value ?? ''), ENT_QUO
                     </div>
                     <div class="modal-body">
                         <p class="form-text">Atualize seus dados pessoais. O CPF informado será usado no próximo login. Para alterar a turma, procure a secretaria.</p>
-                        <form id="editForm" action="controller/controllerAtualizaDadosAluno.php" method="POST">
+                        <form id="editForm" action="controller/controllerAtualizaDadosAluno.php" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="csrf_token" value="<?= $profileEscape($_SESSION['profile_csrf']) ?>">
+                            <div class="mb-3">
+                                <label for="profile_foto" class="form-label">Foto do aluno</label>
+                                <input type="file" class="form-control" id="profile_foto" name="foto" accept="image/jpeg,image/png" aria-describedby="profilePhotoHelp">
+                                <div id="profilePhotoHelp" class="form-text">JPEG ou PNG, até 2 MB e 12 megapixels. Deixe vazio para manter a foto atual.</div>
+                            </div>
                             <div class="mb-3">
                                 <label for="profile_nome" class="form-label">Nome</label>
                                 <input type="text" class="form-control" id="profile_nome" name="nome" maxlength="255" required value="<?= $profileEscape($alunos['nome']) ?>">
@@ -190,7 +203,7 @@ $profileEscape = fn($value) => htmlspecialchars((string) ($value ?? ''), ENT_QUO
     </main>
 
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/student-profile.js"></script>
+    <script src="assets/js/student-profile.js?v=<?= filemtime(__DIR__ . '/assets/js/student-profile.js') ?>"></script>
     <script src="assets/js/main.js"></script>
 
 </body>
