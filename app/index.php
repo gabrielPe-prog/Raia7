@@ -3,6 +3,12 @@ if (!isset($_SESSION)) {
   session_start();
 }
 ?>
+<?php
+if (empty($_SESSION['senha_csrf_token'])) {
+    $_SESSION['senha_csrf_token'] = bin2hex(random_bytes(32));
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -154,19 +160,24 @@ if (!isset($_SESSION)) {
       </div>
       <div class="modal-body">
         <form id="formAlterarSenha" action="controller/controllerAtualizaSenha.php" method="POST">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['senha_csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
           <input type="text" value="0" hidden name="tipo">
           <div class="mb-3">
             <label for="cpf_modal" class="form-label">CPF para validação</label>
             <input type="text" class="form-control" id="cpf_modal" name="cpf" placeholder="Digite seu CPF" required>
-            <div class="form-text">Digite seu CPF para confirmar sua identidade.</div>
+            <div class="form-text">Informe o CPF da conta e confirme sua senha atual.</div>
+          </div>
+          <div class="mb-3">
+            <label for="senha_atual" class="form-label">Senha atual</label>
+            <input type="password" class="form-control" id="senha_atual" name="senha_atual" autocomplete="current-password" required>
           </div>
           <div class="mb-3">
             <label for="nova_senha" class="form-label">Nova Senha</label>
-            <input type="password" class="form-control" id="nova_senha" name="nova_senha" required>
+            <input type="password" class="form-control" id="nova_senha" name="nova_senha" autocomplete="new-password" minlength="8" required>
           </div>
           <div class="mb-3">
             <label for="confirma_senha" class="form-label">Confirmar Nova Senha</label>
-            <input type="password" class="form-control" id="confirma_senha" name="confirma_senha" required>
+            <input type="password" class="form-control" id="confirma_senha" name="confirma_senha" autocomplete="new-password" minlength="8" required>
             <div id="senhaHelp" class="form-text text-danger"></div>
           </div>
           <div class="modal-footer">

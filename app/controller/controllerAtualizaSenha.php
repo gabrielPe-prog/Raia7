@@ -1,139 +1,89 @@
 <?php
-if (!isset($_SESSION)) {
+if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
-date_default_timezone_set('America/Recife');
 
-require_once __DIR__ . "/../service/connection_create.php";
+require_once __DIR__ . '/../service/connection_create.php';
 
-$conn = conexao_pdo();
+$autenticado = !empty($_SESSION['logged_in']) && !empty($_SESSION['id_user']);
+$destino = $autenticado ? '../paginaInicial.php' : '../index.php';
 
-if (isset($_POST['tipo']) && $_POST['tipo'] == 0) {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        $cpf = isset($_POST['cpf']) ? $_POST['cpf'] : '';
-        $nova_senha = isset($_POST['nova_senha']) ? $_POST['nova_senha'] : '';
-        $confirma_senha = isset($_POST['confirma_senha']) ? $_POST['confirma_senha'] : '';
-
-        $cpf = preg_replace('/[^0-9]/', '', $cpf);
-
-        if (empty($cpf) || empty($nova_senha) || empty($confirma_senha)) {
-            $_SESSION['update_status'] = 'error';
-            $_SESSION['update_message'] = 'Todos os campos são obrigatórios!';
-            header('Location: ../index.php');
-            exit();
-        }
-
-        if ($nova_senha !== $confirma_senha) {
-            $_SESSION['update_status'] = 'error';
-            $_SESSION['update_message'] = 'A nova senha e a confirmação não coincidem!';
-            header('Location: ../index.php');
-            exit();
-        }
-
-        try {
-
-            $stmt = $conn->prepare("SELECT * FROM user WHERE cpf = ?");
-            $stmt->execute([$cpf]);
-            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (!$usuario) {
-                $_SESSION['update_status'] = 'error';
-                $_SESSION['update_message'] = 'CPF inválido para este usuário!';
-                header('Location: ../index.php');
-                exit();
-            }
-
-            $user_id = $_SESSION['id_user'];
-
-            $hash_nova_senha = password_hash($nova_senha, PASSWORD_DEFAULT);
-
-            $stmt = $conn->prepare("UPDATE user SET senha = ? WHERE cpf = ?");
-            $result = $stmt->execute([$hash_nova_senha, $cpf]);
-
-            if ($result) {
-                $_SESSION['update_status'] = 'success';
-                $_SESSION['update_message'] = 'Senha atualizada com sucesso!';
-            } else {
-                $_SESSION['update_status'] = 'error';
-                $_SESSION['update_message'] = 'Erro ao atualizar a senha!';
-            }
-        } catch (PDOException $e) {
-            $_SESSION['update_status'] = 'error';
-            $_SESSION['update_message'] = 'Erro ao processar a solicitação: ' . $e->getMessage();
-
-            error_log('Erro ao atualizar senha: ' . $e->getMessage(), 0);
-        }
-
-        header('Location: ../index.php');
-        exit();
-    }
-
-    header('Location: ../index.php');
-    exit();
-};
-
-if (isset($_POST['tipo']) && $_POST['tipo'] == 1) {
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $cpf = isset($_POST['cpf']) ? $_POST['cpf'] : '';
-    $nova_senha = isset($_POST['nova_senha']) ? $_POST['nova_senha'] : '';
-    $confirma_senha = isset($_POST['confirma_senha']) ? $_POST['confirma_senha'] : '';
-
-    $cpf = preg_replace('/[^0-9]/', '', $cpf);
-
-    if (empty($cpf) || empty($nova_senha) || empty($confirma_senha)) {
-        $_SESSION['update_status'] = 'error';
-        $_SESSION['update_message'] = 'Todos os campos são obrigatórios!';
-        header('Location: ../paginaInicial.php');
-        exit();
-    }
-
-    if ($nova_senha !== $confirma_senha) {
-        $_SESSION['update_status'] = 'error';
-        $_SESSION['update_message'] = 'A nova senha e a confirmação não coincidem!';
-        header('Location: ../paginaInicial.php');
-        exit();
-    }
-
-    try {
-
-        $stmt = $conn->prepare("SELECT * FROM user WHERE cpf = ?");
-        $stmt->execute([$cpf]);
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$usuario) {
-            $_SESSION['update_status'] = 'error';
-            $_SESSION['update_message'] = 'CPF inválido para este usuário!';
-            header('Location: ../paginaInicial.php');
-            exit();
-        }
-
-        $user_id = $_SESSION['id_user'];
-
-        $hash_nova_senha = password_hash($nova_senha, PASSWORD_DEFAULT);
-
-        $stmt = $conn->prepare("UPDATE user SET senha = ? WHERE cpf = ?");
-        $result = $stmt->execute([$hash_nova_senha, $cpf]);
-
-        if ($result) {
-            $_SESSION['update_status'] = 'success';
-            $_SESSION['update_message'] = 'Senha atualizada com sucesso!';
-        } else {
-            $_SESSION['update_status'] = 'error';
-            $_SESSION['update_message'] = 'Erro ao atualizar a senha!';
-        }
-    } catch (PDOException $e) {
-        $_SESSION['update_status'] = 'error';
-        $_SESSION['update_message'] = 'Erro ao processar a solicitação: ' . $e->getMessage();
-
-        error_log('Erro ao atualizar senha: ' . $e->getMessage(), 0);
-    }
-
-    header('Location: ../paginaInicial.php');
-    exit();
+function finalizarAtualizacaoSenha($status, $mensagem, $destino)
+{
+    $_SESSION['update_status'] = $status;
+    $_SESSION['update_message'] = $mensagem;
+    header('Location: ' . $destino, true, 303);
+    exit;
 }
 
-header('Location: ../paginaInicial.php');
-exit();
-};
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+    header('Allow: POST');
+    http_response_code(405);
+    exit;
+}
+
+$token = $_POST['csrf_token'] ?? null;
+if (!is_string($token) || !isset($_SESSION['senha_csrf_token']) ||
+    !hash_equals($_SESSION['senha_csrf_token'], $token)) {
+    finalizarAtualizacaoSenha('error', 'Solicitação inválida. Recarregue a página e tente novamente.', $destino);
+}
+
+foreach (['cpf', 'senha_atual', 'nova_senha', 'confirma_senha'] as $campo) {
+    if (!isset($_POST[$campo]) || !is_string($_POST[$campo]) || $_POST[$campo] === '') {
+        finalizarAtualizacaoSenha('error', 'Todos os campos são obrigatórios!', $destino);
+    }
+}
+
+$cpf = preg_replace('/[.\-\s]/', '', $_POST['cpf']);
+$senhaAtual = $_POST['senha_atual'];
+$novaSenha = $_POST['nova_senha'];
+if (!preg_match('/^[0-9]{11}$/D', $cpf)) {
+    finalizarAtualizacaoSenha('error', 'Informe um CPF com 11 dígitos.', $destino);
+}
+if ($novaSenha !== $_POST['confirma_senha']) {
+    finalizarAtualizacaoSenha('error', 'A nova senha e a confirmação não coincidem!', $destino);
+}
+if (strlen($novaSenha) < 8 || strlen($novaSenha) > 72 || strpos($novaSenha, "\0") !== false || trim($novaSenha) === '') {
+    finalizarAtualizacaoSenha('error', 'A nova senha deve ter entre 8 e 72 bytes e não pode conter apenas espaços.', $destino);
+}
+
+try {
+    $conn = conexao_pdo();
+    if (!$conn instanceof PDO) {
+        throw new RuntimeException('Conexão indisponível.');
+    }
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = 'SELECT id_user, senha FROM user WHERE cpf = ?';
+    $parametros = [$cpf];
+    if ($autenticado) {
+        $sql .= ' AND id_user = ?';
+        $parametros[] = $_SESSION['id_user'];
+    }
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($parametros);
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$usuario || !password_verify($senhaAtual, $usuario['senha'])) {
+        finalizarAtualizacaoSenha('error', 'CPF ou senha atual inválidos.', $destino);
+    }
+    if (password_verify($novaSenha, $usuario['senha'])) {
+        finalizarAtualizacaoSenha('error', 'A nova senha deve ser diferente da senha atual.', $destino);
+    }
+
+    $hash = password_hash($novaSenha, PASSWORD_DEFAULT);
+    if ($hash === false) {
+        throw new RuntimeException('Não foi possível gerar o hash da senha.');
+    }
+    // A condição com o hash anterior impede sobrescrever uma alteração concorrente.
+    $stmt = $conn->prepare('UPDATE user SET senha = ? WHERE id_user = ? AND senha = ?');
+    $stmt->execute([$hash, $usuario['id_user'], $usuario['senha']]);
+    if ($stmt->rowCount() !== 1) {
+        finalizarAtualizacaoSenha('error', 'A senha foi alterada em outra solicitação. Tente novamente.', $destino);
+    }
+    unset($_SESSION['senha_csrf_token']);
+    session_regenerate_id(true);
+    finalizarAtualizacaoSenha('success', 'Senha atualizada com sucesso!', $destino);
+} catch (Throwable $e) {
+    error_log('Erro ao atualizar senha: ' . $e->getMessage());
+    finalizarAtualizacaoSenha('error', 'Não foi possível atualizar a senha. Tente novamente mais tarde.', $destino);
+}

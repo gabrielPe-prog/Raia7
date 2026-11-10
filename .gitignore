@@ -3,3 +3,7 @@ LICENSE
 app/anexo_alunos/*
 app/carteirinhasCriadas
 app/vendor
+.env
+.env.*
+!.env.example
+mercadopago.local.php

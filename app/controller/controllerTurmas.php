@@ -3,7 +3,7 @@ require_once __DIR__ . '/../service/connection_create.php';
 require_once __DIR__ . '/../service/turmaStatus.php';
 $conn = conexao_pdo();
 $turmas = [];
-foreach ($conn->query('SELECT id_turma, horario, piscina FROM turmas ORDER BY horario, id_turma')->fetchAll(PDO::FETCH_ASSOC) as $turma) {
+foreach ($conn->query('SELECT id_turma, horario, piscina FROM turmas ORDER BY id_turma ASC')->fetchAll(PDO::FETCH_ASSOC) as $turma) {
     if (turmaSemDefinicao($turma['horario'])) {
         continue;
     }

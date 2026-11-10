@@ -196,6 +196,7 @@
       e.preventDefault();
 
       const formData = new FormData(this);
+      console.log('Form data:', Array.from(formData.entries())); // Log form data for debugging
 
       try {
         const response = await fetch('controller/controllerCadastraAluno.php', {

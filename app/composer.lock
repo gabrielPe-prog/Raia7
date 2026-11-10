@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9fbf0f300241b4040d7014ce73a8dee",
+    "content-hash": "93938468bb315648a8b8b0b83b3ef9a6",
     "packages": [
         {
             "name": "dompdf/dompdf",
@@ -230,16 +230,16 @@
         },
         {
             "name": "mercadopago/dx-php",
-            "version": "3.1.0",
+            "version": "3.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mercadopago/sdk-php.git",
-                "reference": "a108e93c1f00793feb5425fdcfae182bee08b505"
+                "reference": "6138da3381549e4d0a5839440e6f0e35d1760e7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mercadopago/sdk-php/zipball/a108e93c1f00793feb5425fdcfae182bee08b505",
-                "reference": "a108e93c1f00793feb5425fdcfae182bee08b505",
+                "url": "https://api.github.com/repos/mercadopago/sdk-php/zipball/6138da3381549e4d0a5839440e6f0e35d1760e7a",
+                "reference": "6138da3381549e4d0a5839440e6f0e35d1760e7a",
                 "shasum": ""
             },
             "require": {
@@ -247,8 +247,9 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.22",
-                "phpunit/phpunit": "^10.2",
-                "squizlabs/php_codesniffer": "3.*"
+                "phpunit/phpunit": "^11.0",
+                "squizlabs/php_codesniffer": ">=3.13.6",
+                "symfony/console": "^7.0"
             },
             "type": "library",
             "autoload": {
@@ -263,9 +264,10 @@
             "description": "Mercado Pago PHP SDK",
             "homepage": "https://github.com/mercadopago/sdk-php",
             "support": {
-                "source": "https://github.com/mercadopago/sdk-php/tree/3.1.0"
+                "issues": "https://github.com/mercadopago/sdk-php/issues",
+                "source": "https://github.com/mercadopago/sdk-php/tree/3.16.0"
             },
-            "time": "2025-03-11T20:52:06+00:00"
+            "time": "2026-08-27T18:14:23+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -354,5 +356,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

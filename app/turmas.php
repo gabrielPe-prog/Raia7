@@ -13,6 +13,34 @@ if ((string) ($_SESSION['nivel'] ?? '') !== '1') {
   header('Location: paginaInicial.php');
   exit;
 }
+if (empty($_SESSION['turmas_csrf'])) {
+  $_SESSION['turmas_csrf'] = bin2hex(random_bytes(32));
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  try {
+    if (!is_string($_POST['csrf_token'] ?? null) || !hash_equals($_SESSION['turmas_csrf'], $_POST['csrf_token'])) {
+      throw new InvalidArgumentException('Solicitação inválida. Recarregue a página.');
+    }
+    $alunoId = filter_var($_POST['id_aluno'] ?? null, FILTER_VALIDATE_INT);
+    $turmaId = filter_var($_POST['id_turma'] ?? null, FILTER_VALIDATE_INT);
+    if (!$alunoId || !$turmaId || !is_string($_POST['turma_anterior'] ?? null)) {
+      throw new InvalidArgumentException('Selecione um aluno e uma turma válidos.');
+    }
+    require_once __DIR__ . '/service/connection_create.php';
+    require_once __DIR__ . '/service/turmaEnrollment.php';
+    $db = conexao_pdo();
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    matricularAlunoTurma($db, $alunoId, $turmaId, $_POST['turma_anterior']);
+    $_SESSION['turmas_feedback'] = ['success', 'Turma do aluno atualizada com sucesso!'];
+  } catch (InvalidArgumentException $e) {
+    $_SESSION['turmas_feedback'] = ['danger', $e->getMessage()];
+  } catch (Throwable $e) {
+    error_log('Erro ao matricular aluno: ' . $e->getMessage());
+    $_SESSION['turmas_feedback'] = ['danger', 'Não foi possível atualizar a turma. Tente novamente.'];
+  }
+  header('Location: turmas.php', true, 303);
+  exit;
+}
 require_once __DIR__ . '/controller/controllerTurmas.php';
 ?>
 
@@ -49,6 +77,7 @@ require_once __DIR__ . '/controller/controllerTurmas.php';
 
   <link href="assets/css/raia-theme.css" rel="stylesheet">
   <script src="assets/js/raia-ui.js" defer></script>
+  <link href="assets/css/turmas.css?v=<?= filemtime(__DIR__ . '/assets/css/turmas.css') ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -86,7 +115,7 @@ require_once __DIR__ . '/controller/controllerTurmas.php';
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
-  <script src="assets/js/turmas.js"></script>
+  <script src="assets/js/turmas.js?v=<?= filemtime(__DIR__ . '/assets/js/turmas.js') ?>"></script>
 </body>
 
 </html>

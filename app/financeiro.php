@@ -74,6 +74,7 @@ include_once 'controller/controllerFinanceiro.php';
 
         <div class="pagetitle">
             <h1>Financeiro</h1>
+            <a href="faturas.php" class="btn btn-outline-primary mb-3">Faturas e pagamentos do Mercado Pago</a>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="paginaInicial.php">Início</a></li>
