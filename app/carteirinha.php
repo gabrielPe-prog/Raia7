@@ -24,8 +24,7 @@ include_once 'controller/controllerCarteirinha.php';
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/favicon/favicon-96x96.png" rel="icon">
-  <link href="assets/favicon/apple-touch-icon.png" rel="apple-touch-icon">
+
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -45,6 +44,7 @@ include_once 'controller/controllerCarteirinha.php';
 
   <link href="assets/css/raia-theme.css" rel="stylesheet">
   <script src="assets/js/raia-ui.js" defer></script>
+<?php require __DIR__ . '/layout/favicon.php'; ?>
 </head>
 
 <body>

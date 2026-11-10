@@ -42,6 +42,7 @@ include_once 'controller/controllerVisualizaAlunos.php';
 
   <link href="assets/css/raia-theme.css" rel="stylesheet">
   <script src="assets/js/raia-ui.js" defer></script>
+<?php require __DIR__ . '/layout/favicon.php'; ?>
 </head>
 
 <?php include_once 'layout/header.php'; ?>

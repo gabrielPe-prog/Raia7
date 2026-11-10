@@ -31,8 +31,6 @@ $profileEscape = fn($value) => htmlspecialchars((string) ($value ?? ''), ENT_QUO
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <link href="assets/favicon/favicon-96x96.png" rel="icon">
-    <link href="assets/favicon/apple-touch-icon.png" rel="apple-touch-icon">
 
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -50,6 +48,7 @@ $profileEscape = fn($value) => htmlspecialchars((string) ($value ?? ''), ENT_QUO
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="assets/css/raia-theme.css" rel="stylesheet">
   <script src="assets/js/raia-ui.js" defer></script>
+<?php require __DIR__ . '/layout/favicon.php'; ?>
 </head>
 
 <body>

@@ -66,7 +66,8 @@ try {
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet"><link href="assets/css/raia-theme.css" rel="stylesheet">
-<script src="assets/js/raia-ui.js" defer></script></head><body>
+<script src="assets/js/raia-ui.js" defer></script><?php require dirname(__DIR__) . '/layout/favicon.php'; ?>
+</head><body>
 <?php require dirname(__DIR__) . '/layout/header.php'; require dirname(__DIR__) . '/layout/aside.php'; ?>
 <main id="main" class="main">
 <h1><?= $adminFaturas ? 'Faturas dos alunos' : 'Minhas faturas' ?></h1>
