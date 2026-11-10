@@ -33,25 +33,37 @@ $stmt->bindParam(":cpf", $cpf);
 $stmt->execute();
 $acesso_usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
+if ($acesso_usuario && password_verify($senha_digitada, $acesso_usuario['senha'])) {
+  session_regenerate_id(true);
 $horario_turma = "SELECT horario FROM turmas WHERE id_turma = :id_turma";
 $stmt_horario = $conn->prepare($horario_turma);
 $stmt_horario->bindParam(":id_turma", $acesso_usuario['id_turma']);
 $stmt_horario->execute();
 $horario_turma = $stmt_horario->fetch(PDO::FETCH_ASSOC);
 
-if ($acesso_usuario && password_verify($senha_digitada, $acesso_usuario['senha'])) {
   $nome = $acesso_usuario['nome'];
   $cpf = $acesso_usuario['cpf'];
-  $turma = $horario_turma['horario'];
+  $turma = $horario_turma['horario'] ?? 'Sem turma definida';
   $foto = $acesso_usuario['path_foto'];
 
-  $imagemFundo = imagecreatefrompng('../assets/carteirinha/carteirinhaR7.png');
-
-  $corTexto = imagecolorallocate($imagemFundo, 0, 0, 0);
-
-  $caminhoAbsolutoFoto = __DIR__ . '/../' . $foto;
-  if (file_exists($caminhoAbsolutoFoto)) {
-      $fotoAluno = imagecreatefromjpeg($caminhoAbsolutoFoto);
+  // Uma foto ausente ou inválida não deve impedir a autenticação.
+  unset($_SESSION['carteirinha'], $_SESSION['aviso_foto']);
+  $caminhoAbsolutoFoto = __DIR__ . '/../' . (string) $foto;
+  $fotoAluno = false;
+  if (is_string($foto) && trim($foto) !== '' && is_file($caminhoAbsolutoFoto) && is_readable($caminhoAbsolutoFoto)) {
+      $infoFoto = @getimagesize($caminhoAbsolutoFoto);
+      $tipoFoto = $infoFoto[2] ?? null;
+      if ($tipoFoto === IMAGETYPE_JPEG) {
+          $fotoAluno = @imagecreatefromjpeg($caminhoAbsolutoFoto);
+      } elseif ($tipoFoto === IMAGETYPE_PNG) {
+          $fotoAluno = @imagecreatefrompng($caminhoAbsolutoFoto);
+      }
+  }
+  if ($fotoAluno === false) {
+      $_SESSION['aviso_foto'] = true;
+  } else {
+      $imagemFundo = imagecreatefrompng(__DIR__ . '/../assets/carteirinha/carteirinhaR7.png');
+      $corTexto = imagecolorallocate($imagemFundo, 0, 0, 0);
       $fotoLargura = imagesx($fotoAluno);
       $fotoAltura = imagesy($fotoAluno);
 
@@ -63,11 +75,6 @@ if ($acesso_usuario && password_verify($senha_digitada, $acesso_usuario['senha']
       $posicaoXFoto = 121;
       $posicaoYFoto = 138;
       imagecopy($imagemFundo, $fotoRedimensionada, $posicaoXFoto, $posicaoYFoto, 0, 0, $novaLargura, $novaAltura);
-  } else {
-      echo json_encode(['status' => 'error', 'message' => 'Foto do aluno não encontrada.']);
-      exit();
-  }
-
   $fonte = __DIR__ . '/../assets/carteirinha/trebuc.ttf';
 
   $posicaoXNome = 740;
@@ -91,6 +98,8 @@ if ($acesso_usuario && password_verify($senha_digitada, $acesso_usuario['senha']
   }
 
   $_SESSION['carteirinha'] = $caminhoImagem;
+  imagedestroy($fotoAluno);
+  }
 
   $_SESSION['logged_in'] = TRUE;
   $_SESSION['nome'] = $acesso_usuario["nome"];

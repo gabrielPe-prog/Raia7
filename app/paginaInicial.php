@@ -79,6 +79,16 @@
         </nav>
       </div><!-- End Page Title -->
 
+      <?php if (!empty($_SESSION['aviso_foto'])): ?>
+        <div class="alert alert-warning" role="alert">
+          <strong>Sua foto precisa ser atualizada.</strong>
+          <br>
+          Não foi possível carregar a foto do seu cadastro.
+          <br>
+          Você pode atualizar a foto da carteirinha a qualquer momento na <a href="infoAlunos.php">página de informações do aluno</a>.
+        </div>
+      <?php endif; ?>
+
       <section class="section dashboard">
         <div class="welcome-panel">
           <div><span class="eyebrow">ACADEMIA AQUÁTICA RAIA7</span>
