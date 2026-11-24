@@ -28,7 +28,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link " href="financeiro.php">
+        <a class="nav-link " href="faturas.php">
           <i class="bi bi-cash-coin"></i>
           <span>Financeiro</span>
         </a>
@@ -61,7 +61,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link " href="infoPagAlunos.php">
+        <a class="nav-link " href="pagamentosAluno.php">
           <i class="bi bi-cash-coin"></i>
           <span>Informações Financeiras</span>
         </a>

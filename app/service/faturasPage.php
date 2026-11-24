@@ -28,7 +28,10 @@ try {
         }
         $aluno = filter_var($_POST['aluno_id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
         $description = is_string($_POST['descricao'] ?? null) ? trim($_POST['descricao']) : '';
-        $value = is_string($_POST['valor'] ?? null) ? str_replace(',', '.', $_POST['valor']) : '';
+        $value = is_string($_POST['valor'] ?? null) ? trim($_POST['valor']) : '';
+        if (preg_match('/^\d{1,3}(?:\.\d{3})*,\d{2}$/D', $value)) {
+            $value = str_replace(',', '.', str_replace('.', '', $value));
+        }
         $date = is_string($_POST['vencimento'] ?? null) ? $_POST['vencimento'] : '';
         $parsed = DateTimeImmutable::createFromFormat('!Y-m-d', $date);
         if (!$aluno || $description === '' || mb_strlen($description) > 255
@@ -51,7 +54,7 @@ try {
     $stmt = $db->prepare('SELECT t.*, f.descricao, a.nome AS aluno_nome FROM mp_transacoes t JOIN mp_faturas f ON f.id=t.fatura_id JOIN alunos a ON a.id_aluno=f.aluno_id' . $where . ' ORDER BY t.atualizado_em DESC');
     $stmt->execute($params);
     $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($adminFaturas) $students = $db->query('SELECT id_aluno, nome FROM alunos ORDER BY nome')->fetchAll(PDO::FETCH_ASSOC);
+    if ($adminFaturas) $students = $db->query('SELECT id_aluno, nome, cpf FROM alunos ORDER BY nome, cpf')->fetchAll(PDO::FETCH_ASSOC);
 } catch (InvalidArgumentException $e) {
     $_SESSION['checkout_error'] = $e->getMessage();
     header('Location: faturas.php', true, 303); exit;
@@ -71,7 +74,7 @@ try {
 <?php require dirname(__DIR__) . '/layout/header.php'; require dirname(__DIR__) . '/layout/aside.php'; ?>
 <main id="main" class="main">
 <h1><?= $adminFaturas ? 'Faturas dos alunos' : 'Minhas faturas' ?></h1>
-<p><a href="<?= $adminFaturas ? 'financeiro.php' : 'infoPagAlunos.php' ?>">Consultar registros anteriores de pagamentos</a></p>
+<?php if (!$adminFaturas): ?><p><a href="infoPagAlunos.php">Consultar registros anteriores de pagamentos</a></p><?php endif; ?>
 <?php if ($error): ?><div class="alert alert-danger" role="alert"><?= faturaEscape($error) ?></div><?php endif; ?>
 <?php if (isset($_GET['retorno'])): ?><div class="alert alert-info">A situação abaixo reflete a confirmação recebida pelo sistema. Se acabou de pagar, aguarde e <a href="pagamentosAluno.php">atualize a página</a>.</div><?php endif; ?>
 <?php if ($adminFaturas && isset($_GET['criada'])): ?><div class="alert alert-success">Fatura criada.</div><?php endif; ?>
@@ -80,9 +83,10 @@ try {
 <form method="post" action="faturas.php" class="row g-3">
 <input type="hidden" name="csrf" value="<?= faturaEscape($_SESSION['fatura_csrf']) ?>">
 <div class="col-md-4"><label class="form-label" for="aluno">Aluno</label><select id="aluno" name="aluno_id" class="form-select" required>
-<?php foreach ($students as $student): ?><option value="<?= (int) $student['id_aluno'] ?>"><?= faturaEscape($student['nome']) ?></option><?php endforeach; ?></select></div>
+<option value="">Selecione um aluno</option>
+<?php foreach ($students as $student): ?><option value="<?= (int) $student['id_aluno'] ?>"><?= faturaEscape($student['nome']) ?> — CPF: <?= faturaEscape($student['cpf']) ?></option><?php endforeach; ?></select></div>
 <div class="col-md-4"><label class="form-label" for="descricao">Descrição</label><input id="descricao" name="descricao" maxlength="255" class="form-control" required></div>
-<div class="col-md-2"><label class="form-label" for="valor">Valor (R$)</label><input id="valor" name="valor" type="number" min="0.01" max="9999999999.99" step="0.01" class="form-control" required></div>
+<div class="col-md-2"><label class="form-label" for="valor">Valor (R$)</label><input id="valor" name="valor" type="text" inputmode="numeric" maxlength="16" placeholder="0,00" class="form-control" required></div>
 <div class="col-md-2"><label class="form-label" for="vencimento">Vencimento</label><input id="vencimento" name="vencimento" type="date" class="form-control" required></div>
 <div><button class="btn btn-primary">Criar fatura</button></div></form></div></div>
 <?php endif; ?>
@@ -103,4 +107,13 @@ $status = $row['status'] === 'aberta' && $row['vencimento'] < date('Y-m-d') ? 'V
 </tbody></table></div></div></div></main>
 <?php require dirname(__DIR__) . '/layout/footer.php'; ?>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script><script src="assets/js/main.js"></script>
+<?php if ($adminFaturas): ?><script>
+document.getElementById('valor').addEventListener('input', function () {
+    const digits = this.value.replace(/\D/g, '').replace(/^0+/, '').slice(0, 12);
+    if (!digits) { this.value = ''; return; }
+    const padded = digits.padStart(3, '0');
+    const reais = padded.slice(0, -2).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    this.value = reais + ',' + padded.slice(-2);
+});
+</script><?php endif; ?>
 </body></html>

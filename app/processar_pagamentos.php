@@ -21,7 +21,21 @@ try {
     $_SESSION['checkout_error'] = $e->getMessage();
     header('Location: pagamentosAluno.php', true, 303);
 } catch (Throwable $e) {
-    error_log('Checkout: falha ao criar preferência (' . get_class($e) . ').');
+    $diagnostico = 'Checkout: falha ao criar preferência (' . get_class($e) . ')';
+    if ($e instanceof \MercadoPago\Exceptions\MPApiException) {
+        $diagnostico .= ', HTTP ' . $e->getStatusCode();
+    } elseif ($e instanceof PDOException) {
+        $diagnostico .= ', SQLSTATE ' . preg_replace('/[^A-Za-z0-9]/', '', (string) $e->getCode());
+    } elseif ($e instanceof RuntimeException && in_array($e->getMessage(), [
+        'A variável MERCADO_PAGO_ACCESS_TOKEN não foi configurada.',
+        'Configuração incompleta. Consulte docs/checkout-pro.md.',
+        'O arquivo de credenciais deve ficar fora da raiz pública.',
+        'Configuração privada inválida.',
+        'Checkout sem URL válida.',
+    ], true)) {
+        $diagnostico .= ': ' . $e->getMessage();
+    }
+    error_log($diagnostico . '.');
     $_SESSION['checkout_error'] = 'Não foi possível abrir o pagamento. Tente novamente mais tarde.';
     header('Location: pagamentosAluno.php', true, 303);
 }

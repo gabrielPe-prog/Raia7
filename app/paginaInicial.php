@@ -101,8 +101,8 @@
         <div class="quick-grid">
         <?php
           $shortcuts = $_SESSION['nivel'] == 1
-            ? [['alunos.php', 'bi-people', 'Alunos', 'Acompanhe matrículas e informações dos seus alunos.'], ['turmas.php', 'bi-calendar-week', 'Turmas', 'Consulte os horários e os alunos de cada turma.'], ['financeiro.php', 'bi-wallet2', 'Financeiro', 'Organize pagamentos e acompanhe as mensalidades.']]
-            : [['infoAlunos.php', 'bi-person', 'Meus dados', 'Consulte suas informações e dados de matrícula.'], ['carteirinha.php', 'bi-person-vcard', 'Minha carteirinha', 'Sua identificação de aluno sempre à mão.'], ['infoPagAlunos.php', 'bi-wallet2', 'Mensalidades', 'Acompanhe seu histórico de pagamentos.']];
+            ? [['alunos.php', 'bi-people', 'Alunos', 'Acompanhe matrículas e informações dos seus alunos.'], ['turmas.php', 'bi-calendar-week', 'Turmas', 'Consulte os horários e os alunos de cada turma.'], ['faturas.php', 'bi-wallet2', 'Financeiro', 'Organize pagamentos e acompanhe as mensalidades.']]
+            : [['infoAlunos.php', 'bi-person', 'Meus dados', 'Consulte suas informações e dados de matrícula.'], ['carteirinha.php', 'bi-person-vcard', 'Minha carteirinha', 'Sua identificação de aluno sempre à mão.'], ['pagamentosAluno.php', 'bi-wallet2', 'Mensalidades', 'Acompanhe suas faturas e pagamentos.']];
           foreach ($shortcuts as [$url, $icon, $label, $description]): ?>
           <a class="quick-card" href="<?= $url ?>"><span class="quick-icon"><i class="bi <?= $icon ?>"></i></span><h3><?= $label ?></h3><p><?= $description ?></p><span class="quick-link">Acessar <i class="bi bi-arrow-right"></i></span></a>
         <?php endforeach; ?>
